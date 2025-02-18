@@ -1,0 +1,1 @@
+savedcmd_/home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel_module/sysinfo.mod := printf '%s\n'   sysinfo.o | awk '!x[$$0]++ { print("/home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel_module/"$$0) }' > /home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel_module/sysinfo.mod

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Definir el número de contenedores a mantener
+# Definir el número de contenedores de estrés
 NUM_CONTAINERS=10
 
 # Imagen base de Docker
 IMAGE="containerstack/alpine-stress"
 
-# Contenedor especial para logs
+# Contenedor especial para logs (no se elimina)
 LOGS_CONTAINER_NAME="logs_manager"
 LOGS_IMAGE="python:3.9"
 
@@ -20,7 +20,7 @@ STRESS_DISK="--hdd 1 --hdd-bytes 128M"
 STRESS_TYPES=("$STRESS_RAM" "$STRESS_CPU" "$STRESS_IO" "$STRESS_DISK")
 
 # -------------------------------
-# CREAR CONTENEDOR DE LOGS SI NO EXISTE
+# 1️⃣ CREAR CONTENEDOR DE LOGS SI NO EXISTE
 # -------------------------------
 if ! docker ps -a --format '{{.Names}}' | grep -q "$LOGS_CONTAINER_NAME"; then
     echo "📂 Creando contenedor de logs: $LOGS_CONTAINER_NAME"
@@ -30,35 +30,25 @@ else
 fi
 
 # -------------------------------
-# ELIMINAR CONTENEDORES ANTIGUOS
+# 2️⃣ ELIMINAR TODOS LOS CONTENEDORES DE ESTRÉS
 # -------------------------------
-# Obtener lista de contenedores que no sean el de logs
-OLD_CONTAINERS=$(docker ps -aq --filter "name=container_" --format "{{.ID}}")
-
-# Contar cuántos contenedores hay
-TOTAL_CONTAINERS=$(echo "$OLD_CONTAINERS" | wc -l)
-
-# Si hay más de NUM_CONTAINERS, eliminar los más antiguos
-if [ "$TOTAL_CONTAINERS" -gt "$NUM_CONTAINERS" ]; then
-    DELETE_COUNT=$((TOTAL_CONTAINERS - NUM_CONTAINERS))
-    echo "🗑 Eliminando $DELETE_COUNT contenedores antiguos..."
-    echo "$OLD_CONTAINERS" | head -n "$DELETE_COUNT" | xargs docker rm -f
-else
-    echo "✅ No hay contenedores extra para eliminar."
-fi
+echo "🗑 Eliminando contenedores de estrés antiguos..."
+docker ps -aq --filter "name=container_" | xargs -r docker rm -f
 
 # -------------------------------
-# CREAR NUEVOS CONTENEDORES
+# 3️⃣ CREAR 10 NUEVOS CONTENEDORES DE ESTRÉS
 # -------------------------------
 for ((i=0; i<NUM_CONTAINERS; i++)); do
-    # Seleccionar aleatoriamente un tipo de contenedor
+    # Seleccionar aleatoriamente un tipo de estrés
     STRESS_CMD=${STRESS_TYPES[$RANDOM % ${#STRESS_TYPES[@]}]}
     
-    # Generar nombre único basado en la fecha
+    # Generar un nombre único basado en la fecha
     CONTAINER_NAME="container_$(date +%s%N | cut -c1-13)"
 
     # Crear el contenedor
-    docker run -d --rm --cpus="0.2" --memory="128m" --name "$CONTAINER_NAME" "$IMAGE" stress $STRESS_CMD
+    docker run -d --cpus="0.2" --memory="128m" --name "$CONTAINER_NAME" "$IMAGE" stress $STRESS_CMD
 
     echo "📦 Contenedor creado: $CONTAINER_NAME ($STRESS_CMD)"
 done
+
+echo "✅ Se han creado 10 nuevos contenedores de estrés."
