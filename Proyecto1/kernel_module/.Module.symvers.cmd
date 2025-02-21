@@ -1,1 +1,0 @@
-savedcmd_/home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel_module/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel_module/Module.symvers -T /home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel_module/modules.order -i Module.symvers -e 
