@@ -34,6 +34,7 @@ fi
 # -------------------------------
 echo "🗑 Eliminando contenedores de estrés antiguos..."
 docker ps -aq --filter "name=container_" | xargs -r docker rm -f
+echo "🗑 CONTENEDORES ANTIGUOS ELIMINADOS"
 
 # -------------------------------
 # 3️⃣ CREAR 10 NUEVOS CONTENEDORES DE ESTRÉS
