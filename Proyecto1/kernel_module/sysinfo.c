@@ -14,6 +14,12 @@
 #include <linux/kernel_stat.h> // Para obtener tiempos de CPU
 #include <linux/jiffies.h>     // Para calcular el tiempo
 #include <linux/cpufreq.h>     // Para obtener la frecuencia del CPU
+#include <linux/stat.h>
+#include <linux/namei.h>
+#include <linux/statfs.h>
+#include <linux/dcache.h>
+#include <linux/path.h>
+#include <linux/types.h> // Para bool
 
 
 #define FILE_NAME "sysinfo_202110509"
@@ -28,6 +34,7 @@ struct container_info {
     char memory_usage[16];
     char cpu_usage[16];
     char io_usage[16];
+    char disk_usage[16];
 };
 
 //Función para obtener la memoria del sistema
@@ -211,7 +218,7 @@ static unsigned long long get_cpu_usage(const char *container_id) {
 static unsigned long long get_io_usage(const char *container_id) {
     char path[256];
     char buffer[256];
-    unsigned long long rbytes = 0, wbytes = 0;
+    unsigned long long rbytes = 0, wbytes = 0, wios = 0;
 
     snprintf(path, sizeof(path), "/sys/fs/cgroup/system.slice/docker-%s.scope/io.stat", container_id);
     printk(KERN_INFO "Leyendo I/O desde: %s\n", path);
@@ -223,10 +230,7 @@ static unsigned long long get_io_usage(const char *container_id) {
             char *rbytes_pos = strstr(line, "rbytes=");
             if (rbytes_pos) {
                 rbytes_pos += strlen("rbytes=");
-                unsigned long long current_rbytes;
-                if (sscanf(rbytes_pos, "%llu", &current_rbytes) == 1) {
-                    rbytes += current_rbytes;
-                } else {
+                if (sscanf(rbytes_pos, "%llu", &rbytes) != 1) {
                     printk(KERN_ERR "Error: No se pudo convertir rbytes\n");
                 }
             }
@@ -235,10 +239,65 @@ static unsigned long long get_io_usage(const char *container_id) {
             char *wbytes_pos = strstr(line, "wbytes=");
             if (wbytes_pos) {
                 wbytes_pos += strlen("wbytes=");
-                unsigned long long current_wbytes;
-                if (sscanf(wbytes_pos, "%llu", &current_wbytes) == 1) {
-                    wbytes += current_wbytes;
-                } else {
+                if (sscanf(wbytes_pos, "%llu", &wbytes) != 1) {
+                    printk(KERN_ERR "Error: No se pudo convertir wbytes\n");
+                }
+            }
+
+            // Buscar "wios=" en la línea actual
+            char *wios_pos = strstr(line, "wios=");
+            if (wios_pos) {
+                wios_pos += strlen("wios=");
+                if (sscanf(wios_pos, "%llu", &wios) != 1) {
+                    printk(KERN_ERR "Error: No se pudo convertir wios\n");
+                }
+            }
+
+            // Avanzar a la siguiente línea
+            line = strchr(line, '\n');
+            if (line) {
+                line++;
+            } else {
+                break;
+            }
+        }
+    }
+
+    // Devolver el número de operaciones de escritura (wios) como métrica de I/O
+    return wios;
+}
+
+
+
+
+
+// Función para obtener el uso de disco basado en I/O
+static unsigned long get_disk_usage(const char *container_id) {
+    char path[256];
+    char buffer[256];
+    unsigned long long rbytes = 0, wbytes = 0;
+
+    // Construir la ruta al archivo io.stat
+    snprintf(path, sizeof(path), "/sys/fs/cgroup/system.slice/docker-%s.scope/io.stat", container_id);
+
+    // Leer el archivo io.stat
+    if (read_file(path, buffer, sizeof(buffer)) > 0) {
+        char *line = buffer;
+        while (*line != '\0') {
+            // Buscar "rbytes=" en la línea actual
+            char *rbytes_pos = strstr(line, "rbytes=");
+            if (rbytes_pos) {
+                rbytes_pos += strlen("rbytes=");
+                if (sscanf(rbytes_pos, "%llu", &rbytes) != 1) {
+                    printk(KERN_ERR "Error: No se pudo convertir rbytes\n");
+                }
+            }
+
+            // Buscar "wbytes=" en la línea actual
+            char *wbytes_pos = strstr(line, "wbytes=");
+            if (wbytes_pos) {
+                wbytes_pos += strlen("wbytes=");
+                if (sscanf(wbytes_pos, "%llu", &wbytes) != 1) {
                     printk(KERN_ERR "Error: No se pudo convertir wbytes\n");
                 }
             }
@@ -253,9 +312,12 @@ static unsigned long long get_io_usage(const char *container_id) {
         }
     }
 
-    // Sumar rbytes y wbytes para obtener el total de I/O
-    return (rbytes + wbytes) / (1024 * 1024); // Convertir a MiB
+    // Calcular el uso de disco en MB
+    unsigned long long total_bytes = rbytes + wbytes;
+    return total_bytes / (1024 * 1024); // Convertir a MB
 }
+
+
 
 
 // Función para obtener información de los contenedores
@@ -301,11 +363,15 @@ static void get_containers_info(struct seq_file *m) {
                 unsigned long memory_usage = get_memory_usage(container_id);
                 unsigned long long cpu_usage = get_cpu_usage(container_id);
                 unsigned long long io_usage = get_io_usage(container_id);
+                unsigned long long disk_usage = get_disk_usage(container_id);
 
                 // Formatear las métricas
                 snprintf(container->memory_usage, sizeof(container->memory_usage), "%lu MiB", memory_usage);
                 snprintf(container->cpu_usage, sizeof(container->cpu_usage), "%llu%%", cpu_usage);
-                snprintf(container->io_usage, sizeof(container->io_usage), "%llu MiB", io_usage);
+                snprintf(container->io_usage, sizeof(container->io_usage), "%llu ops", io_usage);
+                
+                // Mostrar operaciones de escritura
+                snprintf(container->disk_usage, sizeof(container->disk_usage), "%llu MiB", disk_usage);
 
                 container_count++;
             }
@@ -322,6 +388,7 @@ static void get_containers_info(struct seq_file *m) {
         seq_printf(m, "\t\t\t\"memory_usage\": \"%s\",\n", containers[i].memory_usage);
         seq_printf(m, "\t\t\t\"cpu_usage\": \"%s\",\n", containers[i].cpu_usage);
         seq_printf(m, "\t\t\t\"io_usage\": \"%s\"\n", containers[i].io_usage);
+        seq_printf(m, "\t\t\t\"disk_usage\": \"%s\"\n", containers[i].disk_usage);
         seq_printf(m, "\t\t}%s\n", (i < container_count - 1) ? "," : "");
     }
     seq_printf(m, "\t]\n");
