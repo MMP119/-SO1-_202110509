@@ -20,7 +20,7 @@ STRESS_DISK="--hdd 1 --hdd-bytes 128M"
 STRESS_TYPES=("$STRESS_RAM" "$STRESS_CPU" "$STRESS_IO" "$STRESS_DISK")
 
 # -------------------------------
-# 1️⃣ CREAR CONTENEDOR DE LOGS SI NO EXISTE
+# CREAR CONTENEDOR DE LOGS SI NO EXISTE
 # -------------------------------
 if ! docker ps -a --format '{{.Names}}' | grep -q "$LOGS_CONTAINER_NAME"; then
     echo "📂 Creando contenedor de logs: $LOGS_CONTAINER_NAME"
@@ -30,14 +30,14 @@ else
 fi
 
 # -------------------------------
-# 2️⃣ ELIMINAR TODOS LOS CONTENEDORES DE ESTRÉS
+# ELIMINAR TODOS LOS CONTENEDORES DE ESTRÉS
 # -------------------------------
 echo "🗑 Eliminando contenedores de estrés antiguos..."
 docker ps -aq --filter "name=container_" | xargs -r docker rm -f
 echo "🗑 CONTENEDORES ANTIGUOS ELIMINADOS"
 
 # -------------------------------
-# 3️⃣ CREAR 10 NUEVOS CONTENEDORES DE ESTRÉS
+# CREAR 10 NUEVOS CONTENEDORES DE ESTRÉS
 # -------------------------------
 for ((i=0; i<NUM_CONTAINERS; i++)); do
     # Seleccionar aleatoriamente un tipo de estrés

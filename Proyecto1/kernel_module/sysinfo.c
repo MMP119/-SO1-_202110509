@@ -141,26 +141,57 @@ static unsigned long long get_cpu_usage(const char *container_id) {
     return cpu_percent;
 }
 
+
 // Función para obtener el uso de I/O de un contenedor
 static unsigned long long get_io_usage(const char *container_id) {
     char path[256];
     char buffer[256];
-    unsigned long long io_usage = 0;
+    unsigned long long rbytes = 0, wbytes = 0;
 
     snprintf(path, sizeof(path), "/sys/fs/cgroup/system.slice/docker-%s.scope/io.stat", container_id);
     printk(KERN_INFO "Leyendo I/O desde: %s\n", path);
 
     if (read_file(path, buffer, sizeof(buffer)) > 0) {
-        // Buscar la línea que contiene "rbytes" o "wbytes"
-        char *line = strstr(buffer, "rbytes");
-        if (line) {
-            if (sscanf(line, "rbytes %llu", &io_usage) != 1) {
-                printk(KERN_ERR "Error: No se pudo convertir el uso de I/O\n");
+        char *line = buffer;
+        while (*line != '\0') {
+            // Buscar "rbytes=" en la línea actual
+            char *rbytes_pos = strstr(line, "rbytes=");
+            if (rbytes_pos) {
+                rbytes_pos += strlen("rbytes=");
+                unsigned long long current_rbytes;
+                if (sscanf(rbytes_pos, "%llu", &current_rbytes) == 1) {
+                    rbytes += current_rbytes;
+                } else {
+                    printk(KERN_ERR "Error: No se pudo convertir rbytes\n");
+                }
+            }
+
+            // Buscar "wbytes=" en la línea actual
+            char *wbytes_pos = strstr(line, "wbytes=");
+            if (wbytes_pos) {
+                wbytes_pos += strlen("wbytes=");
+                unsigned long long current_wbytes;
+                if (sscanf(wbytes_pos, "%llu", &current_wbytes) == 1) {
+                    wbytes += current_wbytes;
+                } else {
+                    printk(KERN_ERR "Error: No se pudo convertir wbytes\n");
+                }
+            }
+
+            // Avanzar a la siguiente línea
+            line = strchr(line, '\n');
+            if (line) {
+                line++;
+            } else {
+                break;
             }
         }
     }
-    return io_usage / (1024 * 1024); // Convertir a MiB
+
+    // Sumar rbytes y wbytes para obtener el total de I/O
+    return (rbytes + wbytes) / (1024 * 1024); // Convertir a MiB
 }
+
 
 // Función para obtener información de los contenedores
 static void get_containers_info(struct seq_file *m) {
@@ -272,5 +303,5 @@ module_init(sysinfo_init);
 module_exit(sysinfo_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Tu Nombre");
+MODULE_AUTHOR("Mario Marroquin");
 MODULE_DESCRIPTION("Módulo para obtener información de contenedores Docker");
