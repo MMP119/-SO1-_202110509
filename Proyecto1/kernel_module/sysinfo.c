@@ -8,6 +8,13 @@
 #include <linux/fs.h>
 #include <linux/uaccess.h>
 #include <linux/delay.h> // Para msleep
+#include <linux/mm.h>
+#include <linux/smp.h>         // Para obtener número de CPUs
+#include <linux/timekeeping.h> // Para obtener el tiempo desde el arranque
+#include <linux/kernel_stat.h> // Para obtener tiempos de CPU
+#include <linux/jiffies.h>     // Para calcular el tiempo
+#include <linux/cpufreq.h>     // Para obtener la frecuencia del CPU
+
 
 #define FILE_NAME "sysinfo_202110509"
 #define MAX_CONTAINERS 11
@@ -22,6 +29,64 @@ struct container_info {
     char cpu_usage[16];
     char io_usage[16];
 };
+
+//Función para obtener la memoria del sistema
+static void get_memory_info(struct seq_file *m) {
+    struct sysinfo i;
+    si_meminfo(&i);
+
+    unsigned long total_ram = (i.totalram * i.mem_unit) / 1024 / 1024;  
+    unsigned long free_ram = (i.freeram * i.mem_unit) / 1024 / 1024;    
+    unsigned long used_ram = total_ram - free_ram;
+
+    seq_printf(m, "\t\"Memory\": {\n");
+    seq_printf(m, "\t\t\"total_ram\": %lu MB,\n", total_ram);
+    seq_printf(m, "\t\t\"free_ram\": %lu MB,\n", free_ram);
+    seq_printf(m, "\t\t\"used_ram\": %lu MB\n", used_ram);
+    seq_printf(m, "\t},\n");
+}
+
+// Función para obtener el uso de CPU
+static void get_cpu_info(struct seq_file *m) {
+    unsigned long long user1 = 0, nice1 = 0, system1 = 0, idle1 = 0;
+    unsigned long long user2 = 0, nice2 = 0, system2 = 0, idle2 = 0;
+    unsigned int cpu;
+
+    // Primera lectura de los tiempos de CPU
+    for_each_online_cpu(cpu) {
+        user1 += kcpustat_cpu(cpu).cpustat[CPUTIME_USER];
+        nice1 += kcpustat_cpu(cpu).cpustat[CPUTIME_NICE];
+        system1 += kcpustat_cpu(cpu).cpustat[CPUTIME_SYSTEM];
+        idle1 += kcpustat_cpu(cpu).cpustat[CPUTIME_IDLE];
+    }
+
+    // Esperar 1 segundo para obtener una segunda muestra
+    msleep(1000);
+
+    // Segunda lectura de los tiempos de CPU
+    for_each_online_cpu(cpu) {
+        user2 += kcpustat_cpu(cpu).cpustat[CPUTIME_USER];
+        nice2 += kcpustat_cpu(cpu).cpustat[CPUTIME_NICE];
+        system2 += kcpustat_cpu(cpu).cpustat[CPUTIME_SYSTEM];
+        idle2 += kcpustat_cpu(cpu).cpustat[CPUTIME_IDLE];
+    }
+
+    // Calcular las diferencias
+    unsigned long long user = user2 - user1;
+    unsigned long long nice = nice2 - nice1;
+    unsigned long long system = system2 - system1;
+    unsigned long long idle = idle2 - idle1;
+
+    // Calcular el tiempo total de CPU
+    unsigned long long total_time = user + nice + system;
+    unsigned long long total_cpu_time = total_time + idle;
+
+    // Calcular el uso de la CPU en porcentaje
+    unsigned long long cpu_usage = (total_cpu_time > 0) ? (total_time * 100) / total_cpu_time : 0;
+
+    seq_printf(m, "\t\"CPU_usage\": %llu%%,\n", cpu_usage);
+}
+
 
 // Función para obtener el ID del contenedor desde el cgroup del proceso
 static const char* get_container_id(struct task_struct *task) {
@@ -268,6 +333,8 @@ static void get_containers_info(struct seq_file *m) {
 // Función para mostrar la información en /proc
 static int proc_show(struct seq_file *m, void *v) {
     seq_printf(m, "{\n");
+    get_memory_info(m);
+    get_cpu_info(m);
     get_containers_info(m);
     seq_printf(m, "}\n");
     return 0;
