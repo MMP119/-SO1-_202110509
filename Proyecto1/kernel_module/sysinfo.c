@@ -47,9 +47,9 @@ static void get_memory_info(struct seq_file *m) {
     unsigned long used_ram = total_ram - free_ram;
 
     seq_printf(m, "\t\"Memory\": {\n");
-    seq_printf(m, "\t\t\"total_ram\": %lu MB,\n", total_ram);
-    seq_printf(m, "\t\t\"free_ram\": %lu MB,\n", free_ram);
-    seq_printf(m, "\t\t\"used_ram\": %lu MB\n", used_ram);
+    seq_printf(m, "\t\t\"total_ram\":\"%lu MB\",\n", total_ram);
+    seq_printf(m, "\t\t\"free_ram\":\"%lu MB\",\n", free_ram);
+    seq_printf(m, "\t\t\"used_ram\":\"%lu MB\"\n", used_ram);
     seq_printf(m, "\t},\n");
 }
 
@@ -91,7 +91,7 @@ static void get_cpu_info(struct seq_file *m) {
     // Calcular el uso de la CPU en porcentaje
     unsigned long long cpu_usage = (total_cpu_time > 0) ? (total_time * 100) / total_cpu_time : 0;
 
-    seq_printf(m, "\t\"CPU_usage\": %llu%%,\n", cpu_usage);
+    seq_printf(m, "\t\"CPU_usage\":\"%llu%%\",\n", cpu_usage);
 }
 
 
@@ -384,10 +384,10 @@ static void get_containers_info(struct seq_file *m) {
         seq_printf(m, "\t\t{\n");
         seq_printf(m, "\t\t\t\"id\": \"%s\",\n", containers[i].id);
         seq_printf(m, "\t\t\t\"name\": \"%s\",\n", containers[i].name);
-        seq_printf(m, "\t\t\t\"pid\": %d,\n", containers[i].pid);
+        seq_printf(m, "\t\t\t\"pid\": \"%d\",\n", containers[i].pid);
         seq_printf(m, "\t\t\t\"memory_usage\": \"%s\",\n", containers[i].memory_usage);
         seq_printf(m, "\t\t\t\"cpu_usage\": \"%s\",\n", containers[i].cpu_usage);
-        seq_printf(m, "\t\t\t\"io_usage\": \"%s\"\n", containers[i].io_usage);
+        seq_printf(m, "\t\t\t\"io_usage\": \"%s\",\n", containers[i].io_usage);
         seq_printf(m, "\t\t\t\"disk_usage\": \"%s\"\n", containers[i].disk_usage);
         seq_printf(m, "\t\t}%s\n", (i < container_count - 1) ? "," : "");
     }

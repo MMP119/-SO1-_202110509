@@ -24,9 +24,18 @@ STRESS_TYPES=("$STRESS_RAM" "$STRESS_CPU" "$STRESS_IO" "$STRESS_DISK")
 # -------------------------------
 if ! docker ps -a --format '{{.Names}}' | grep -q "$LOGS_CONTAINER_NAME"; then
     echo "📂 Creando contenedor de logs: $LOGS_CONTAINER_NAME"
-    docker run -d --name "$LOGS_CONTAINER_NAME" -v $(pwd)/logs:/app/logs "$LOGS_IMAGE" tail -f /dev/null
+
+    #docker run -d --name "$LOGS_CONTAINER_NAME" -v $(pwd)/logs:/app/logs "$LOGS_IMAGE" tail -f /dev/null
+    # Construir la imagen del contenedor de logs (con FastAPI)
+    docker build -t logs_container -f Dockerfile.logs .
+
+    # Ejecutar el contenedor de logs en segundo plano con el puerto 8000
+    docker run -d --name "$LOGS_CONTAINER_NAME" -p 8000:8000 logs_container
+
 else
+
     echo "📂 Contenedor de logs ya está en ejecución."
+
 fi
 
 # -------------------------------
