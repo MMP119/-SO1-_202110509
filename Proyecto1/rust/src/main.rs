@@ -48,6 +48,59 @@ struct SysInfo {
     containers: Vec<Container>,
 }
 
+
+
+fn clasificar_contenedores(contenedores: &Vec<Container>) {
+    let mut contenedores_cpu = Vec::new();
+    let mut contenedores_ram = Vec::new();
+    let mut contenedores_io = Vec::new();
+    let mut contenedores_disco = Vec::new();
+
+    for cont in contenedores {
+        let cpu_uso = cont.cpu_usage.replace("%", "").parse::<u32>().unwrap_or(0);
+        let mem_uso = cont.memory_usage.replace(" MiB", "").parse::<u32>().unwrap_or(0);
+        let io_uso = cont.io_usage.replace(" ops", "").parse::<u32>().unwrap_or(0);
+        let disk_uso = cont.disk_usage.replace(" MiB", "").parse::<u32>().unwrap_or(0);
+
+        if cpu_uso > 0 {
+            contenedores_cpu.push(cont);
+        }
+        if mem_uso > 0 {
+            contenedores_ram.push(cont);
+        }
+        if io_uso > 0 {
+            contenedores_io.push(cont);
+        }
+        if disk_uso > 0 {
+            contenedores_disco.push(cont);
+        }
+    }
+
+    println!("=== Contenedores CPU ===");
+    for c in &contenedores_cpu {
+        println!("{:?}", c);
+    }
+
+    println!("\n=== Contenedores RAM ===");
+    for c in &contenedores_ram {
+        println!("{:?}", c);
+    }
+
+    println!("\n=== Contenedores I/O ===");
+    for c in &contenedores_io {
+        println!("{:?}", c);
+    }
+
+    println!("\n=== Contenedores Disco ===");
+    for c in &contenedores_disco {
+        println!("{:?}", c);
+    }
+}
+
+
+
+
+
 fn main() {
     let path = "/proc/sysinfo_202110509"; // Para pruebas, luego cambiar a "/proc/sysinfo_hcarnet"
 
@@ -56,6 +109,8 @@ fn main() {
             match serde_json::from_str::<SysInfo>(&contents) {
                 Ok(data) => {
                     println!("Datos obtenidos: {:#?}", data);
+
+                    clasificar_contenedores(&data.containers);
                 }
                 Err(e) => eprintln!("Error al deserializar JSON: {}", e),
             }
@@ -63,3 +118,7 @@ fn main() {
         Err(e) => eprintln!("Error al leer el archivo: {}", e),
     }
 }
+
+
+
+
