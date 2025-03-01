@@ -1,5 +1,5 @@
 use std::fs;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 #[derive(Debug, Deserialize)]
 struct Memory {
