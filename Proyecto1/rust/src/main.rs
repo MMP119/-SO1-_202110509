@@ -1,29 +1,51 @@
 use std::fs;
 use serde::{Deserialize};
 
+
+
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)] // Silencia las advertencias de campos no utilizados
 struct Memory {
+    #[serde(rename = "total_ram")] // Nombre en el JSON
     total_ram: String,
+    #[serde(rename = "free_ram")] // Nombre en el JSON
     free_ram: String,
+    #[serde(rename = "used_ram")] // Nombre en el JSON
     used_ram: String,
 }
 
+
+
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)] // Silencia las advertencias de campos no utilizados
 struct Container {
+    #[serde(rename = "id")] // Nombre en el JSON
     id: String,
+    #[serde(rename = "name")] // Nombre en el JSON
     name: String,
+    #[serde(rename = "pid")] // Nombre en el JSON
     pid: String,
+    #[serde(rename = "memory_usage")] // Nombre en el JSON
     memory_usage: String,
+    #[serde(rename = "cpu_usage")] // Nombre en el JSON
     cpu_usage: String,
+    #[serde(rename = "io_usage")] // Nombre en el JSON
     io_usage: String,
+    #[serde(rename = "disk_usage")] // Nombre en el JSON
     disk_usage: String,
 }
 
+
+
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)] // Silencia las advertencias de campos no utilizados
 struct SysInfo {
-    Memory: Memory,
-    CPU_usage: String,
-    Containers: Vec<Container>,
+    #[serde(rename = "Memory")] // Nombre en el JSON
+    memory: Memory,
+    #[serde(rename = "CPU_usage")] // Nombre en el JSON
+    cpu_usage: String,
+    #[serde(rename = "Containers")] // Nombre en el JSON
+    containers: Vec<Container>,
 }
 
 fn main() {
