@@ -65,21 +65,24 @@ fn leer_metricas() -> Option<SysInfo> {
 }
 
 // 📌 Función para obtener los contenedores activos de Docker
-fn obtener_contenedores_docker() -> HashMap<String, String> {
+fn obtener_contenedores_docker() -> HashMap<String, (String, String)> {
     let output = Command::new("docker")
         .arg("ps")
         .arg("--format")
-        .arg("{{.ID}} {{.Names}}")  // Obtenemos el ID y el nombre de los contenedores
+        .arg("{{.ID}} {{.Names}} {{.Command}}")  // Obtenemos el ID, el nombre de los contenedores y el comando ingresado
         .output()
         .expect("Error al ejecutar docker ps");
 
     let stdout = String::from_utf8_lossy(&output.stdout);
-    let mut contenedores: HashMap<String, String> = HashMap::new();
+    let mut contenedores: HashMap<String, (String, String)> = HashMap::new();
 
     for line in stdout.lines() {
         let parts: Vec<&str> = line.split_whitespace().collect();
-        if parts.len() == 2 {
-            contenedores.insert(parts[0].to_string(), parts[1].to_string()); // ID -> Nombre
+        if parts.len() >= 3 {
+            let id = parts[0].to_string();
+            let nombre = parts[1].to_string();
+            let comando = parts[2..].join(" ");
+            contenedores.insert(id, (nombre, comando)); // ID -> (Nombre, Comando)
         }
     }
 
@@ -97,30 +100,30 @@ fn gestionar_contenedores(data: &SysInfo) -> Vec<String> {
     let mut io_cont: Option<String> = None;
     let mut disk_cont: Option<String> = None;
 
-    // Obtener los contenedores activos de Docker (ID -> Nombre)
+    // Obtener los contenedores activos de Docker (ID -> (Nombre, Comando))
     let contenedores_docker = obtener_contenedores_docker();
 
     for c in &data.containers {
-        // 📌 Verificar si el contenedor está en ejecución y obtener su nombre
-        if let Some(nombre) = contenedores_docker.get(&c.id) {
+        // 📌 Verificar si el contenedor está en ejecución y obtener su nombre y comando
+        if let Some((nombre, comando)) = contenedores_docker.get(&c.id) {
             if nombre == contenedor_logs {
                 continue; // 🚫 No eliminar el contenedor de logs
             }
 
             // Lógica de comparación para determinar qué contenedores mantener
-            if nombre.contains("cpu") {
+            if comando.contains("cpu") {
                 if cpu_cont.is_none() || c.id > *cpu_cont.as_ref().unwrap() {
                     cpu_cont = Some(c.id.clone());
                 }
-            } else if nombre.contains("vm") {
+            } else if comando.contains("vm") {
                 if ram_cont.is_none() || c.id > *ram_cont.as_ref().unwrap() {
                     ram_cont = Some(c.id.clone());
                 }
-            } else if nombre.contains("io") {
+            } else if comando.contains("io") {
                 if io_cont.is_none() || c.id > *io_cont.as_ref().unwrap() {
                     io_cont = Some(c.id.clone());
                 }
-            } else if nombre.contains("hdd") {
+            } else if comando.contains("hdd") {
                 if disk_cont.is_none() || c.id > *disk_cont.as_ref().unwrap() {
                     disk_cont = Some(c.id.clone());
                 }
@@ -130,7 +133,7 @@ fn gestionar_contenedores(data: &SysInfo) -> Vec<String> {
 
     // Eliminar contenedores que no sean de tipo cpu, vm, io o hdd
     for c in &data.containers {
-        if let Some(nombre) = contenedores_docker.get(&c.id) {
+        if let Some((nombre, comando)) = contenedores_docker.get(&c.id) {
             if nombre == contenedor_logs {
                 continue; // 🚫 No eliminar el contenedor de logs
             }
