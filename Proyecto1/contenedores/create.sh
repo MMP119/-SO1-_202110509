@@ -1,14 +1,10 @@
 #!/bin/bash
 
 # Definir el número de contenedores de estrés
-NUM_CONTAINERS=10
+NUM_CONTAINERS=6
 
 # Imagen base de Docker
 IMAGE="containerstack/alpine-stress"
-
-# Contenedor especial para logs (no se elimina)
-LOGS_CONTAINER_NAME="logs_manager"
-LOGS_IMAGE="python:3.9"
 
 # Comandos de carga para cada tipo de contenedor
 STRESS_RAM="--vm 1 --vm-bytes 128M"
@@ -19,31 +15,17 @@ STRESS_DISK="--hdd 1 --hdd-bytes 128M"
 # Lista de tipos de contenedores
 STRESS_TYPES=("$STRESS_RAM" "$STRESS_CPU" "$STRESS_IO" "$STRESS_DISK")
 
-# -------------------------------
-# CREAR CONTENEDOR DE LOGS SI NO EXISTE
-# -------------------------------
-if ! docker ps -a --format '{{.Names}}' | grep -q "$LOGS_CONTAINER_NAME"; then
-    echo "📂 Creando contenedor de logs: $LOGS_CONTAINER_NAME"
-
-    #docker run -d --name "$LOGS_CONTAINER_NAME" -v $(pwd)/logs:/app/logs "$LOGS_IMAGE" tail -f /dev/null
-    # Construir la imagen del contenedor de logs (con FastAPI)
-    docker build -t logs_container -f Dockerfile.logs .
-
-    # Ejecutar el contenedor de logs en segundo plano con el puerto 8000
-    docker run -d --name "$LOGS_CONTAINER_NAME" -p 8000:8000 logs_container
-
-else
-
-    echo "📂 Contenedor de logs ya está en ejecución."
-
-fi
 
 # -------------------------------
-# ELIMINAR TODOS LOS CONTENEDORES DE ESTRÉS
+# CREAR UN CONTENEDOR DE CADA TIPO DE ESTRÉS
 # -------------------------------
-echo "🗑 Eliminando contenedores de estrés antiguos..."
-docker ps -aq --filter "name=container_" | xargs -r docker rm -f
-echo "🗑 CONTENEDORES ANTIGUOS ELIMINADOS"
+for STRESS_CMD in "${STRESS_TYPES[@]}"; do
+    CONTAINER_NAME="container_$(date +%s%N | cut -c1-13)"
+    docker run -d --cpus="0.2" --memory="128m" --name "$CONTAINER_NAME" "$IMAGE" stress $STRESS_CMD
+    echo "📦 Contenedor creado: $CONTAINER_NAME ($STRESS_CMD)"
+    sleep 0.2  # Pequeña pausa para evitar nombres duplicados
+done
+
 
 # -------------------------------
 # CREAR 10 NUEVOS CONTENEDORES DE ESTRÉS
@@ -59,6 +41,9 @@ for ((i=0; i<NUM_CONTAINERS; i++)); do
     docker run -d --cpus="0.2" --memory="128m" --name "$CONTAINER_NAME" "$IMAGE" stress $STRESS_CMD
 
     echo "📦 Contenedor creado: $CONTAINER_NAME ($STRESS_CMD)"
+
+    sleep 0.2 # Pequeña pausa para evitar nombres duplicados
+
 done
 
 echo "✅ Se han creado 10 nuevos contenedores de estrés."

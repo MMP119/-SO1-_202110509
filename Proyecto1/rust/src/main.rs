@@ -45,6 +45,32 @@ struct SysInfo {
     containers: Vec<Container>,
 }
 
+
+// 📌 Función para crear el contenedor de log   s
+fn crear_contenedor_logs() -> Option<String> {
+    let output = Command::new("docker")
+        .arg("run")
+        .arg("-d")
+        .arg("--name")
+        .arg("logs_manager")
+        .arg("-p")
+        .arg("8000:8000")
+        .arg("logs_container") // Dockerfile.logs
+        .output()
+        .expect("Error al crear el contenedor de logs");
+
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    if stdout.is_empty() {
+        eprintln!("❌ Error al crear el contenedor de logs");
+        None
+    } else {
+        println!("📂 Contenedor de logs creado: {}", stdout);
+        Some(stdout)
+    }
+}
+
+
+
 // 📌 Función para leer el archivo de métricas del kernel
 fn leer_metricas() -> Option<SysInfo> {
     let path = "/proc/sysinfo_202110509";
@@ -133,7 +159,7 @@ fn gestionar_contenedores(data: &SysInfo) -> Vec<String> {
 
     // Eliminar contenedores que no sean de tipo cpu, vm, io o hdd
     for c in &data.containers {
-        if let Some((nombre, comando)) = contenedores_docker.get(&c.id) {
+        if let Some((nombre, _)) = contenedores_docker.get(&c.id) { //comando
             if nombre == contenedor_logs {
                 continue; // 🚫 No eliminar el contenedor de logs
             }
@@ -150,6 +176,7 @@ fn gestionar_contenedores(data: &SysInfo) -> Vec<String> {
 
     eliminados.into_iter().collect()
 }
+
 
 
 // 📌 Función para eliminar contenedores
@@ -170,7 +197,20 @@ fn eliminar_contenedores(contenedores: Vec<String>) {
     }
 }
 
+
+
 fn main() {
+
+    println!("🚀 Iniciando servicio de gestión de contenedores...");
+
+    let _ = match crear_contenedor_logs() { //id_contenedor_logs
+        Some(id) => id,
+        None => {
+            eprintln!("⚠️ No se pudo crear el contenedor de logs. Abortando...");
+            return;
+        }
+    };
+
     loop {
         println!("📌 Leyendo métricas del sistema...");
 
