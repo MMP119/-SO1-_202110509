@@ -36,3 +36,17 @@ async def receive_logs(data: dict):
         json.dump(logs, f, indent=4)
     
     return {"message": "Logs recibidos correctamente"}
+
+
+@app.get("/logs")
+async def get_logs():
+    """ Retorna todos los logs guardados """
+    if os.path.exists(LOG_FILE):
+        with open(LOG_FILE, "r") as f:
+            try:
+                logs = json.load(f)
+                return logs
+            except json.JSONDecodeError:
+                return {"error": "No se pudo leer el archivo de logs"}
+    
+    return {"message": "No hay logs disponibles"}
