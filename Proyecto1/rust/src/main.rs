@@ -46,7 +46,7 @@ struct SysInfo {
 }
 
 
-// 📌 Función para crear el contenedor de log   s
+//función para crear el contenedor de logs
 fn crear_contenedor_logs() -> Option<String> {
     let output = Command::new("docker")
         .arg("run")
@@ -71,7 +71,7 @@ fn crear_contenedor_logs() -> Option<String> {
 
 
 
-// 📌 Función para leer el archivo de métricas del kernel
+//función para leer el archivo de métricas del kernel
 fn leer_metricas() -> Option<SysInfo> {
     let path = "/proc/sysinfo_202110509";
 
@@ -90,7 +90,8 @@ fn leer_metricas() -> Option<SysInfo> {
     }
 }
 
-// 📌 Función para obtener los contenedores activos de Docker
+
+//función para obtener los contenedores activos de Docker
 fn obtener_contenedores_docker() -> HashMap<String, (String, String)> {
     let output = Command::new("docker")
         .arg("ps")
@@ -116,9 +117,10 @@ fn obtener_contenedores_docker() -> HashMap<String, (String, String)> {
 }
 
 
-// 📌 Función para determinar qué contenedores eliminar
+
+//función para determinar qué contenedores eliminar
 fn gestionar_contenedores(data: &SysInfo) -> Vec<String> {
-    let contenedor_logs = "logs_manager"; // ⚠️ Nombre del contenedor de logs (no se debe eliminar)
+    let contenedor_logs = "logs_manager"; // nombre del contenedor de logs (no se debe eliminar)
     let mut eliminados: HashSet<String> = HashSet::new();
     
     let mut cpu_cont: Option<String> = None;
@@ -130,10 +132,11 @@ fn gestionar_contenedores(data: &SysInfo) -> Vec<String> {
     let contenedores_docker = obtener_contenedores_docker();
 
     for c in &data.containers {
-        // 📌 Verificar si el contenedor está en ejecución y obtener su nombre y comando
+        
+        // verificar si el contenedor está en ejecución y obtener su nombre y comando
         if let Some((nombre, comando)) = contenedores_docker.get(&c.id) {
             if nombre == contenedor_logs {
-                continue; // 🚫 No eliminar el contenedor de logs
+                continue; // NOeliminar el contenedor de logs
             }
 
             // Lógica de comparación para determinar qué contenedores mantener
@@ -161,7 +164,7 @@ fn gestionar_contenedores(data: &SysInfo) -> Vec<String> {
     for c in &data.containers {
         if let Some((nombre, _)) = contenedores_docker.get(&c.id) { //comando
             if nombre == contenedor_logs {
-                continue; // 🚫 No eliminar el contenedor de logs
+                continue; //No eliminar el contenedor de logs
             }
         }
 
@@ -179,7 +182,7 @@ fn gestionar_contenedores(data: &SysInfo) -> Vec<String> {
 
 
 
-// 📌 Función para eliminar contenedores
+// Función para eliminar contenedores
 fn eliminar_contenedores(contenedores: Vec<String>) {
     for contenedor_id in &contenedores {
         let output = Command::new("docker")
@@ -231,6 +234,6 @@ fn main() {
         }
 
         println!("⏳ Esperando 10 segundos...");
-        thread::sleep(Duration::from_secs(10)); // ⏳ Espera 10 segundos antes de la siguiente iteración
+        thread::sleep(Duration::from_secs(10)); //Espera 10 segundos antes de la siguiente iteración
     }
 }
