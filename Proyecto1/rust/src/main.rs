@@ -70,6 +70,7 @@ struct LogContainer {
     fecha_creacion: String,
     // Si el contenedor llega a eliminarse se actualizará este campo
     fecha_eliminacion: Option<String>,
+    metric: Option<String>,
 }
 
 #[derive(Debug, Default)]
@@ -183,12 +184,14 @@ fn gestionar_contenedores(data: &SysInfo, fecha: &str) -> Vec<String> {
                     if let Some(log_activo) = reg.cpu.iter_mut().find(|l| l.id == c.id && l.fecha_eliminacion.is_none()) {
                         // Actualizamos la fecha_creacion del log activo
                         log_activo.fecha_creacion = nueva_fecha;
+                        log_activo.metric = Some(c.cpu_usage.clone());
                     } else {
                         // No existe un log activo, crearlo
                         let log = LogContainer {
                             id: c.id.clone(),
-                            fecha_creacion: nueva_fecha,
+                            fecha_creacion: nueva_fecha.clone(),
                             fecha_eliminacion: None,
+                            metric: Some(c.cpu_usage.clone()),
                         };
                         reg.cpu.push(log);
                     }
@@ -196,11 +199,13 @@ fn gestionar_contenedores(data: &SysInfo, fecha: &str) -> Vec<String> {
                     ram_cont = Some(c.id.clone());
                     if let Some(log_activo) = reg.ram.iter_mut().find(|l| l.id == c.id && l.fecha_eliminacion.is_none()) {
                         log_activo.fecha_creacion = nueva_fecha;
+                        log_activo.metric = Some(c.memory_usage.clone());
                     } else {
                         let log = LogContainer {
                             id: c.id.clone(),
                             fecha_creacion: nueva_fecha,
                             fecha_eliminacion: None,
+                            metric: Some(c.memory_usage.clone()),
                         };
                         reg.ram.push(log);
                     }
@@ -208,11 +213,13 @@ fn gestionar_contenedores(data: &SysInfo, fecha: &str) -> Vec<String> {
                     io_cont = Some(c.id.clone());
                     if let Some(log_activo) = reg.io.iter_mut().find(|l| l.id == c.id && l.fecha_eliminacion.is_none()) {
                         log_activo.fecha_creacion = nueva_fecha;
+                        log_activo.metric = Some(c.io_usage.clone());
                     } else {
                         let log = LogContainer {
                             id: c.id.clone(),
                             fecha_creacion: nueva_fecha,
                             fecha_eliminacion: None,
+                            metric: Some(c.io_usage.clone()),
                         };
                         reg.io.push(log);
                     }
@@ -220,11 +227,13 @@ fn gestionar_contenedores(data: &SysInfo, fecha: &str) -> Vec<String> {
                     disk_cont = Some(c.id.clone());
                     if let Some(log_activo) = reg.disco.iter_mut().find(|l| l.id == c.id && l.fecha_eliminacion.is_none()) {
                         log_activo.fecha_creacion = nueva_fecha;
+                        log_activo.metric = Some(c.disk_usage.clone());
                     } else {
                         let log = LogContainer {
                             id: c.id.clone(),
                             fecha_creacion: nueva_fecha,
                             fecha_eliminacion: None,
+                            metric: Some(c.disk_usage.clone()),
                         };
                         reg.disco.push(log);
                     }
@@ -311,6 +320,7 @@ fn manejar_ctrlc(_eliminados: Arc<Mutex<Vec<String>>>) {
                 println!("            {{");
                 println!("                id: \"{}\",", log.id);
                 println!("                fecha_creacion: \"{}\",", log.fecha_creacion);
+                println!("                metric: \"{}\",", log.metric.as_deref().unwrap_or("N/A"));
                 println!("                fecha_eliminacion: {}",
                     match &log.fecha_eliminacion {
                         Some(fe) => format!("Some(\"{}\")", fe),
