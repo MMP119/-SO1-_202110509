@@ -159,6 +159,7 @@ fn gestionar_contenedores(data: &SysInfo, fecha: &str) -> Vec<String> {
     let contenedor_logs = "logs_manager"; // nombre del contenedor de logs (no se debe eliminar)
     let mut eliminados: HashSet<String> = HashSet::new();
     
+    // Usamos variables para almacenar el contenedor "seleccionado" (el más nuevo) para cada categoría
     let mut cpu_cont: Option<String> = None;
     let mut ram_cont: Option<String> = None;
     let mut io_cont: Option<String> = None;
@@ -173,33 +174,60 @@ fn gestionar_contenedores(data: &SysInfo, fecha: &str) -> Vec<String> {
         for c in &data.containers {
             if let Some((nombre, comando)) = contenedores_docker.get(&c.id) {
                 if nombre == contenedor_logs {
-                    continue; // NOeliminar el contenedor de logs
+                    continue; // NO eliminar el contenedor de logs
                 }
-                let log = LogContainer{
-                    id: c.id.clone(),
-                    fecha_creacion: fecha.to_string(),
-                    fecha_eliminacion: None,
-                };
+                // Nuevo log para actualizar o crear
+                let nueva_fecha = fecha.to_string();
                 if comando.contains("cpu") {
-                    if cpu_cont.is_none() || c.id > *cpu_cont.as_ref().unwrap() {
-                        cpu_cont = Some(c.id.clone());
+                    cpu_cont = Some(c.id.clone());
+                    if let Some(log_activo) = reg.cpu.iter_mut().find(|l| l.id == c.id && l.fecha_eliminacion.is_none()) {
+                        // Actualizamos la fecha_creacion del log activo
+                        log_activo.fecha_creacion = nueva_fecha;
+                    } else {
+                        // No existe un log activo, crearlo
+                        let log = LogContainer {
+                            id: c.id.clone(),
+                            fecha_creacion: nueva_fecha,
+                            fecha_eliminacion: None,
+                        };
+                        reg.cpu.push(log);
                     }
-                    reg.cpu.push(log);
                 } else if comando.contains("vm") {
-                    if ram_cont.is_none() || c.id > *ram_cont.as_ref().unwrap() {
-                        ram_cont = Some(c.id.clone());
+                    ram_cont = Some(c.id.clone());
+                    if let Some(log_activo) = reg.ram.iter_mut().find(|l| l.id == c.id && l.fecha_eliminacion.is_none()) {
+                        log_activo.fecha_creacion = nueva_fecha;
+                    } else {
+                        let log = LogContainer {
+                            id: c.id.clone(),
+                            fecha_creacion: nueva_fecha,
+                            fecha_eliminacion: None,
+                        };
+                        reg.ram.push(log);
                     }
-                    reg.ram.push(log);
                 } else if comando.contains("io") {
-                    if io_cont.is_none() || c.id > *io_cont.as_ref().unwrap() {
-                        io_cont = Some(c.id.clone());
+                    io_cont = Some(c.id.clone());
+                    if let Some(log_activo) = reg.io.iter_mut().find(|l| l.id == c.id && l.fecha_eliminacion.is_none()) {
+                        log_activo.fecha_creacion = nueva_fecha;
+                    } else {
+                        let log = LogContainer {
+                            id: c.id.clone(),
+                            fecha_creacion: nueva_fecha,
+                            fecha_eliminacion: None,
+                        };
+                        reg.io.push(log);
                     }
-                    reg.io.push(log);
                 } else if comando.contains("hdd") {
-                    if disk_cont.is_none() || c.id > *disk_cont.as_ref().unwrap() {
-                        disk_cont = Some(c.id.clone());
+                    disk_cont = Some(c.id.clone());
+                    if let Some(log_activo) = reg.disco.iter_mut().find(|l| l.id == c.id && l.fecha_eliminacion.is_none()) {
+                        log_activo.fecha_creacion = nueva_fecha;
+                    } else {
+                        let log = LogContainer {
+                            id: c.id.clone(),
+                            fecha_creacion: nueva_fecha,
+                            fecha_eliminacion: None,
+                        };
+                        reg.disco.push(log);
                     }
-                    reg.disco.push(log);
                 }
             }
         }
@@ -209,7 +237,7 @@ fn gestionar_contenedores(data: &SysInfo, fecha: &str) -> Vec<String> {
     for c in &data.containers {
         if let Some((nombre, _)) = contenedores_docker.get(&c.id) {
             if nombre == contenedor_logs {
-                continue; //No eliminar el contenedor de logs
+                continue; // No eliminar el contenedor de logs
             }
         }
 
