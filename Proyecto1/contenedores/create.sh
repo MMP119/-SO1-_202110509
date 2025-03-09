@@ -21,11 +21,11 @@ STRESS_TYPES=("$STRESS_RAM" "$STRESS_CPU" "$STRESS_IO" "$STRESS_DISK")
 # -------------------------------
 for STRESS_CMD in "${STRESS_TYPES[@]}"; do
     CONTAINER_NAME="container_$(date +%s%N | cut -c1-13)"
-    docker run -d --cpus="0.2" --memory="128m" --name "$CONTAINER_NAME" "$IMAGE" stress $STRESS_CMD
+    docker run -d --cpus="0.2" --memory="128m" --name "$CONTAINER_NAME" "$IMAGE" stress $STRESS_CMD &
     echo "📦 Contenedor creado: $CONTAINER_NAME ($STRESS_CMD)"
-    sleep 0.2  # Pequeña pausa para evitar nombres duplicados
 done
 
+wait # Esperar a que todos los contenedores del primer bloque se hayan creado
 
 # -------------------------------
 # CREAR 10 NUEVOS CONTENEDORES DE ESTRÉS
@@ -38,12 +38,12 @@ for ((i=0; i<NUM_CONTAINERS; i++)); do
     CONTAINER_NAME="container_$(date +%s%N | cut -c1-13)"
 
     # Crear el contenedor
-    docker run -d --cpus="0.2" --memory="128m" --name "$CONTAINER_NAME" "$IMAGE" stress $STRESS_CMD
+    docker run -d --cpus="0.2" --memory="128m" --name "$CONTAINER_NAME" "$IMAGE" stress $STRESS_CMD &
 
     echo "📦 Contenedor creado: $CONTAINER_NAME ($STRESS_CMD)"
 
-    sleep 0.2 # Pequeña pausa para evitar nombres duplicados
-
 done
+
+wait # Esperar a que todos los contenedores del segundo bloque se hayan creado
 
 echo "✅ Se han creado 10 nuevos contenedores de estrés."

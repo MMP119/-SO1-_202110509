@@ -72,8 +72,22 @@ fn main() {
                     let mut reg = LOG_REGISTRO.lock().unwrap();
                     reg.marcar_eliminacion(&contenedores_a_eliminar, &elimination_time);
                 }
-                // Ejecutar la eliminación de contenedores
-                docker::eliminar_contenedores(contenedores_a_eliminar);
+
+                // Ejecutar la eliminación de contenedores en hilos separados
+                let handles: Vec<_> = contenedores_a_eliminar.into_iter().map(|container_id| {
+
+                    thread::spawn(move || {
+
+                        docker::eliminar_contenedor(container_id);
+
+                    })
+                    
+                }).collect();
+
+                // Esperar a que todos los hilos terminen
+                for handle in handles {
+                    handle.join().expect("Error en hilo de eliminación");
+                }
             }
         }
 

@@ -52,19 +52,35 @@ pub fn obtener_contenedores_docker() -> HashMap<String, (String, String)> {
 
 /// Elimina los contenedores que se le pasan en el vector.
 /// Para cada contenedor, ejecuta `docker rm -f` y muestra el resultado de la operación.
-pub fn eliminar_contenedores(contenedores: Vec<String>) {
-    for contenedor_id in contenedores {
-        let output = Command::new("docker")
-            .arg("rm")
-            .arg("-f")
-            .arg(&contenedor_id)
-            .output()
-            .expect("Error al eliminar el contenedor");
+// pub fn eliminar_contenedores(contenedores: Vec<String>) {
+//     for contenedor_id in contenedores {
+//         let output = Command::new("docker")
+//             .arg("rm")
+//             .arg("-f")
+//             .arg(&contenedor_id)
+//             .output()
+//             .expect("Error al eliminar el contenedor");
 
-        println!(
-            "🗑 Eliminando contenedor {}: {}",
-            contenedor_id,
-            String::from_utf8_lossy(&output.stdout)
-        );
-    }
+//         println!(
+//             "🗑 Eliminando contenedor {}: {}",
+//             contenedor_id,
+//             String::from_utf8_lossy(&output.stdout)
+//         );
+//     }
+// }
+
+
+/// Elimina un contenedor dado su ID.
+pub fn eliminar_contenedor(id: String) {
+    let output = Command::new("docker")
+        .arg("rm")
+        .arg("-f")
+        .arg(&id)
+        .output()
+        .expect("Error al eliminar el contenedor");
+    println!(
+        "🗑 Eliminando contenedor {}: {}",
+        id,
+        String::from_utf8_lossy(&output.stdout)
+    );
 }
