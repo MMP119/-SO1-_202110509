@@ -11,6 +11,12 @@ pub struct Memory {
     pub free_ram: String,
     #[serde(rename = "used_ram")]
     pub used_ram: String,
+    
+}
+
+#[derive(Debug, Deserialize)]
+pub struct CPU {
+    pub cpu_usage: String,
 }
 
 /// Representa la información de un contenedor extraída del JSON.
@@ -41,7 +47,7 @@ pub struct SysInfo {
     #[serde(rename = "Memory")]
     pub memory: Memory,
     #[serde(rename = "CPU_usage")]
-    pub cpu_usage: String,
+    pub cpu_usage: CPU,
     #[serde(rename = "Containers")]
     pub containers: Vec<Container>,
 }

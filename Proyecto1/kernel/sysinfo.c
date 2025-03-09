@@ -91,7 +91,9 @@ static void get_cpu_info(struct seq_file *m) {
     // Calcular el uso de la CPU en porcentaje
     unsigned long long cpu_usage = (total_cpu_time > 0) ? (total_time * 100) / total_cpu_time : 0;
 
-    seq_printf(m, "\t\"CPU_usage\":\"%llu%%\",\n", cpu_usage);
+    seq_printf(m, "\t\"CPU_usage\":{\n");
+    seq_printf(m, "\t\t\"cpu_usage\":\"%llu%%\"\n", cpu_usage);
+    seq_printf(m, "\t},\n");
 }
 
 
