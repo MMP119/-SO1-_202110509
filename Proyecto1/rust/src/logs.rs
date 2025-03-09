@@ -88,6 +88,7 @@ pub struct LogEntry {
     pub ram: Vec<LogContainer>,
     pub io: Vec<LogContainer>,
     pub disco: Vec<LogContainer>,
+    pub eliminados: Vec<LogContainer>,
 }
 
 impl RegistroLogs {
@@ -110,6 +111,7 @@ impl RegistroLogs {
             ram: self.ram.clone(),
             io: self.io.clone(),
             disco: self.disco.clone(),
+            eliminados: self.eliminados.clone(),
         }
     }
 }
