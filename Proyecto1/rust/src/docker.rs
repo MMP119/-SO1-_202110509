@@ -1,8 +1,7 @@
 use std::process::Command;
 use std::collections::HashMap;
 
-/// Crea el contenedor que administrará los logs.
-/// Ejecuta el comando `docker run` y retorna el ID del contenedor si se creó correctamente.
+/// Crea el contenedor que administrará los logs
 pub fn crear_contenedor_logs() -> Option<String> {
     let output = Command::new("docker")
         .arg("run")
@@ -11,7 +10,9 @@ pub fn crear_contenedor_logs() -> Option<String> {
         .arg("logs_manager")
         .arg("-p")
         .arg("8000:8000")
-        .arg("logs_container") // Se asume que esta imagen ya existe.
+        .arg("-v")
+        .arg(format!("{}:/data", std::env::current_dir().unwrap().join("logs_data").display()))
+        .arg("logs_container") 
         .output()
         .expect("Error al crear el contenedor de logs");
 
@@ -25,8 +26,8 @@ pub fn crear_contenedor_logs() -> Option<String> {
     }
 }
 
-/// Obtiene una lista de contenedores activos a través de `docker ps`.
-/// Retorna un HashMap en el que la clave es el ID del contenedor y el valor es una tupla con el nombre y el comando.
+
+// Obtiene una lista de contenedores activos a través de `docker ps`, retorna un HashMap en el que la clave es el ID del contenedor y el valor es una tupla con el nombre y el comando.
 pub fn obtener_contenedores_docker() -> HashMap<String, (String, String)> {
     let output = Command::new("docker")
         .arg("ps")
@@ -50,27 +51,7 @@ pub fn obtener_contenedores_docker() -> HashMap<String, (String, String)> {
     contenedores
 }
 
-/// Elimina los contenedores que se le pasan en el vector.
-/// Para cada contenedor, ejecuta `docker rm -f` y muestra el resultado de la operación.
-// pub fn eliminar_contenedores(contenedores: Vec<String>) {
-//     for contenedor_id in contenedores {
-//         let output = Command::new("docker")
-//             .arg("rm")
-//             .arg("-f")
-//             .arg(&contenedor_id)
-//             .output()
-//             .expect("Error al eliminar el contenedor");
-
-//         println!(
-//             "🗑 Eliminando contenedor {}: {}",
-//             contenedor_id,
-//             String::from_utf8_lossy(&output.stdout)
-//         );
-//     }
-// }
-
-
-/// Elimina un contenedor dado su ID.
+// Elimina un contenedor dado su ID.
 pub fn eliminar_contenedor(id: String) {
     let output = Command::new("docker")
         .arg("rm")

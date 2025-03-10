@@ -7,7 +7,7 @@ from typing import List, Optional
 
 app = FastAPI()
 
-# Ruta donde se almacenarán los logs; se recomienda montar esta carpeta como un volumen
+# Ruta donde se almacenarán los logs
 LOGS_FILE = "/data/logs.json"
 
 class ContainerLog(BaseModel):
@@ -59,6 +59,19 @@ async def get_logs():
             raise HTTPException(status_code=500, detail=f"Error al leer los logs: {e}")
     else:
         return []
+    
+
+@app.delete("/borrar")
+async def delete_logs():
+    if os.path.exists(LOGS_FILE):
+        try:
+            os.remove(LOGS_FILE)
+            return {"status": "ok", "message": "Logs borrados"}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error al borrar logs: {e}")
+    else:
+        return {"status": "ok", "message": "No hay logs para borrar"}
+
 
 @app.get("/")
 async def root():

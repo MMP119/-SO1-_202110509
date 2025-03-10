@@ -1,8 +1,7 @@
 use std::fs;
 use serde::Deserialize;
 
-/// Representa la información de memoria deserializada desde el JSON.
-/// Se mapean los campos del JSON a los atributos de la estructura.
+// Representa la información de memoria deserializada desde el JSON
 #[derive(Debug, Deserialize)]
 pub struct Memory {
     #[serde(rename = "total_ram")]
@@ -19,8 +18,7 @@ pub struct CPU {
     pub cpu_usage: String,
 }
 
-/// Representa la información de un contenedor extraída del JSON.
-/// Se incluye el ID, nombre, PID y diferentes métricas de uso.
+// Representa la información de un contenedor extraída del JSON
 #[derive(Debug, Deserialize)]
 #[allow(dead_code)]
 pub struct Container {
@@ -40,8 +38,7 @@ pub struct Container {
     pub disk_usage: String,
 }
 
-/// Estructura principal que agrupa las métricas del sistema.
-/// Incluye información de memoria, uso de CPU y la lista de contenedores.
+// Estructura principal que agrupa las métricas del sistema
 #[derive(Debug, Deserialize)]
 pub struct SysInfo {
     #[serde(rename = "Memory")]
@@ -52,8 +49,7 @@ pub struct SysInfo {
     pub containers: Vec<Container>,
 }
 
-/// Lee el archivo de métricas ubicado en `/proc/sysinfo_202110509` y lo deserializa en una estructura SysInfo.
-/// Si ocurre algún error en la lectura o deserialización, se imprime un mensaje y se retorna None.
+// Lee el archivo de métricas ubicado en `/proc/sysinfo_202110509` y lo deserializa en una estructura SysInfo
 pub fn leer_metricas() -> Option<SysInfo> {
     let path = "/proc/sysinfo_202110509";
     match fs::read_to_string(path) {

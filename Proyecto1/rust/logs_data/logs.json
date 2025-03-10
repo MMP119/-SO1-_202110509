@@ -1,0 +1,185 @@
+[
+    {
+        "timestamp": "2025-03-10 00:42:45",
+        "memory_total": "15236 MB",
+        "memory_free": "2440 MB",
+        "memory_used": "12796 MB",
+        "cpu_usage": "30%",
+        "cpu": [
+            {
+                "id": "220406a5bc0f",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:17",
+                "metric": "21%"
+            },
+            {
+                "id": "76c8ce2431fd",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:39",
+                "metric": "20%"
+            },
+            {
+                "id": "cc65e76c6ec7",
+                "fecha_creacion": "2025-03-10 00:41:36",
+                "fecha_eliminacion": "2025-03-10 00:42:44",
+                "metric": "19%"
+            },
+            {
+                "id": "36c8b98cf27a",
+                "fecha_creacion": "2025-03-10 00:42:41",
+                "fecha_eliminacion": "2025-03-10 00:42:44",
+                "metric": "21%"
+            },
+            {
+                "id": "8f3cce36a635",
+                "fecha_creacion": "2025-03-10 00:42:41",
+                "fecha_eliminacion": null,
+                "metric": "19%"
+            }
+        ],
+        "ram": [
+            {
+                "id": "aa49660355cc",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:17",
+                "metric": "127 MiB"
+            },
+            {
+                "id": "b047b0553a32",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:39",
+                "metric": "127 MiB"
+            },
+            {
+                "id": "98ec490733dc",
+                "fecha_creacion": "2025-03-10 00:41:36",
+                "fecha_eliminacion": "2025-03-10 00:41:39",
+                "metric": "127 MiB"
+            },
+            {
+                "id": "0df7404d8ccc",
+                "fecha_creacion": "2025-03-10 00:41:36",
+                "fecha_eliminacion": "2025-03-10 00:41:39",
+                "metric": "127 MiB"
+            },
+            {
+                "id": "2c342099849a",
+                "fecha_creacion": "2025-03-10 00:41:36",
+                "fecha_eliminacion": "2025-03-10 00:42:08",
+                "metric": "122 MiB"
+            },
+            {
+                "id": "8da0cd97a3b7",
+                "fecha_creacion": "2025-03-10 00:42:05",
+                "fecha_eliminacion": "2025-03-10 00:42:08",
+                "metric": "124 MiB"
+            },
+            {
+                "id": "fc22d4d68342",
+                "fecha_creacion": "2025-03-10 00:42:05",
+                "fecha_eliminacion": "2025-03-10 00:42:08",
+                "metric": "79 MiB"
+            },
+            {
+                "id": "0b61fc172082",
+                "fecha_creacion": "2025-03-10 00:42:05",
+                "fecha_eliminacion": null,
+                "metric": "106 MiB"
+            }
+        ],
+        "io": [
+            {
+                "id": "c465cd5950ff",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:17",
+                "metric": "1752 ops"
+            },
+            {
+                "id": "bf69714eb165",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:17",
+                "metric": "1887 ops"
+            },
+            {
+                "id": "b4696ddc9b0c",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:39",
+                "metric": "1948 ops"
+            },
+            {
+                "id": "2f6ee81b68a3",
+                "fecha_creacion": "2025-03-10 00:41:36",
+                "fecha_eliminacion": "2025-03-10 00:42:08",
+                "metric": "573 ops"
+            },
+            {
+                "id": "bce2e15790df",
+                "fecha_creacion": "2025-03-10 00:42:05",
+                "fecha_eliminacion": "2025-03-10 00:42:44",
+                "metric": "568 ops"
+            },
+            {
+                "id": "48d85327e747",
+                "fecha_creacion": "2025-03-10 00:42:41",
+                "fecha_eliminacion": "2025-03-10 00:42:44",
+                "metric": "275 ops"
+            },
+            {
+                "id": "7f70129e6c37",
+                "fecha_creacion": "2025-03-10 00:42:41",
+                "fecha_eliminacion": "2025-03-10 00:42:44",
+                "metric": "263 ops"
+            },
+            {
+                "id": "417e13d31149",
+                "fecha_creacion": "2025-03-10 00:42:41",
+                "fecha_eliminacion": "2025-03-10 00:42:44",
+                "metric": "267 ops"
+            },
+            {
+                "id": "c57775786c0a",
+                "fecha_creacion": "2025-03-10 00:42:41",
+                "fecha_eliminacion": null,
+                "metric": "265 ops"
+            }
+        ],
+        "disco": [
+            {
+                "id": "b604d6e8e6b9",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:17",
+                "metric": "2700 MiB"
+            },
+            {
+                "id": "9b9fda3ac9a7",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:17",
+                "metric": "4529 MiB"
+            },
+            {
+                "id": "373ec60b2fed",
+                "fecha_creacion": "2025-03-10 00:41:14",
+                "fecha_eliminacion": "2025-03-10 00:41:39",
+                "metric": "5153 MiB"
+            },
+            {
+                "id": "46ef1d4213c2",
+                "fecha_creacion": "2025-03-10 00:41:36",
+                "fecha_eliminacion": "2025-03-10 00:42:08",
+                "metric": "7370 MiB"
+            },
+            {
+                "id": "0ec4402aecb9",
+                "fecha_creacion": "2025-03-10 00:42:05",
+                "fecha_eliminacion": "2025-03-10 00:42:08",
+                "metric": "8304 MiB"
+            },
+            {
+                "id": "59ab1f29c889",
+                "fecha_creacion": "2025-03-10 00:42:05",
+                "fecha_eliminacion": null,
+                "metric": "6013 MiB"
+            }
+        ]
+    }
+]

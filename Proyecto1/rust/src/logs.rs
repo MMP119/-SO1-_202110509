@@ -1,6 +1,6 @@
 use crate::metrics::SysInfo;
 use std::collections::HashSet;
-use serde::Serialize; // Asegúrate de tener la dependencia serde con el feature "derive" en Cargo.toml
+use serde::Serialize;
 
 /// Estructura para almacenar la información de la memoria junto con el timestamp.
 #[derive(Debug, Serialize)]
@@ -20,8 +20,7 @@ pub struct CpuLog{
     pub cpu_usage: String,
 }
 
-/// Estructura para almacenar la información de cada contenedor en el log.
-/// Se conserva la fecha de creación original y se actualiza la fecha de eliminación cuando corresponda.
+// Estructura para almacenar la información de cada contenedor en el log.
 #[derive(Debug, Clone, Serialize)]
 #[allow(dead_code)]
 pub struct LogContainer {
@@ -31,7 +30,7 @@ pub struct LogContainer {
     pub metric: Option<String>,
 }
 
-/// Registro global de logs, que agrupa la información de memoria y los contenedores por categoría.
+//Registro global de logs, que agrupa la información de memoria y los contenedores por categoría.
 #[derive(Debug, Default, Serialize)]
 pub struct RegistroLogs {
     pub memory_info: Option<MemoryLog>,
@@ -43,7 +42,7 @@ pub struct RegistroLogs {
 }
 
 impl RegistroLogs {
-    /// Actualiza la información de memoria en el log.
+    //Actualiza la información de memoria en el log.
     pub fn actualizar_memoria(&mut self, mem: &crate::metrics::Memory, cpu: &crate::metrics::CPU, now: String) {
         self.memory_info = Some(MemoryLog {
             total: mem.total_ram.clone(),
@@ -55,7 +54,7 @@ impl RegistroLogs {
     }
 }
 
-/// Trait para marcar en el log la fecha de eliminación de los contenedores.
+//Trait para marcar en el log la fecha de eliminación de los contenedores.
 pub trait MarcarEliminacion {
     fn marcar_eliminacion(&mut self, ids: &Vec<String>, fecha: &str);
 }
@@ -76,7 +75,7 @@ impl MarcarEliminacion for RegistroLogs {
     }
 }
 
-/// Estructura que se enviará a la API de logs.
+//Estructura que se enviará a la API de logs.
 #[derive(Debug, Serialize)]
 pub struct LogEntry {
     pub timestamp: String,
@@ -92,8 +91,7 @@ pub struct LogEntry {
 }
 
 impl RegistroLogs {
-    /// Convierte el RegistroLogs en un LogEntry para enviar a la API.
-    /// Recibe el timestamp final y el uso de CPU (puedes ajustarlo según lo requieras).
+    //Convierte el RegistroLogs en un LogEntry para enviar a la API.
     pub fn to_log_entry(&self, timestamp: String) -> LogEntry {
         let (total, free, used, cpu) = if let Some(ref mem) = self.memory_info {
             (mem.total.clone(), mem.free.clone(), mem.used.clone(), mem.cpu_usage.clone())
@@ -116,8 +114,7 @@ impl RegistroLogs {
     }
 }
 
-/// Función para gestionar la agrupación de contenedores y determinar cuáles eliminar.
-/// Se actualiza o crea el log para cada contenedor según su categoría, conservando la fecha de creación si ya existe.
+// Función para gestionar la agrupación de contenedores y determinar cuáles eliminar
 pub fn gestionar_contenedores(data: &SysInfo, fecha: &str) -> Vec<String> {
     let contenedor_logs = "logs_manager"; // Contenedor de logs, no se debe eliminar
     let mut eliminados = HashSet::new();
