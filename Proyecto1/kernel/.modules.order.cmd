@@ -1,0 +1,1 @@
+savedcmd_/home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel/modules.order := {   echo /home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel/sysinfo.o; :; } > /home/mario/Escritorio/GitHub/-SO1-_202110509/Proyecto1/kernel/modules.order

@@ -1,184 +1,196 @@
 [
     {
-        "timestamp": "2025-03-10 00:42:45",
+        "timestamp": "2025-03-10 10:51:16",
         "memory_total": "15236 MB",
-        "memory_free": "2440 MB",
-        "memory_used": "12796 MB",
-        "cpu_usage": "30%",
+        "memory_free": "5071 MB",
+        "memory_used": "10165 MB",
+        "cpu_usage": "7%",
         "cpu": [
             {
-                "id": "220406a5bc0f",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:17",
-                "metric": "21%"
-            },
-            {
-                "id": "76c8ce2431fd",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:39",
+                "id": "a6d252bfdd10",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:48:56",
                 "metric": "20%"
             },
             {
-                "id": "cc65e76c6ec7",
-                "fecha_creacion": "2025-03-10 00:41:36",
-                "fecha_eliminacion": "2025-03-10 00:42:44",
+                "id": "183a0e10e9da",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:49:19",
+                "metric": "20%"
+            },
+            {
+                "id": "1559a5755b04",
+                "fecha_creacion": "2025-03-10 10:49:16",
+                "fecha_eliminacion": "2025-03-10 10:49:44",
                 "metric": "19%"
             },
             {
-                "id": "36c8b98cf27a",
-                "fecha_creacion": "2025-03-10 00:42:41",
-                "fecha_eliminacion": "2025-03-10 00:42:44",
-                "metric": "21%"
-            },
-            {
-                "id": "8f3cce36a635",
-                "fecha_creacion": "2025-03-10 00:42:41",
+                "id": "57118e6efaf2",
+                "fecha_creacion": "2025-03-10 10:49:41",
                 "fecha_eliminacion": null,
-                "metric": "19%"
+                "metric": "20%"
             }
         ],
         "ram": [
             {
-                "id": "aa49660355cc",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:17",
+                "id": "59b0d5e8c5dc",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:49:19",
                 "metric": "127 MiB"
             },
             {
-                "id": "b047b0553a32",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:39",
-                "metric": "127 MiB"
+                "id": "d04d80bddc19",
+                "fecha_creacion": "2025-03-10 10:49:16",
+                "fecha_eliminacion": "2025-03-10 10:49:19",
+                "metric": "5 MiB"
             },
             {
-                "id": "98ec490733dc",
-                "fecha_creacion": "2025-03-10 00:41:36",
-                "fecha_eliminacion": "2025-03-10 00:41:39",
-                "metric": "127 MiB"
+                "id": "06fab6b74438",
+                "fecha_creacion": "2025-03-10 10:49:16",
+                "fecha_eliminacion": "2025-03-10 10:49:44",
+                "metric": "125 MiB"
             },
             {
-                "id": "0df7404d8ccc",
-                "fecha_creacion": "2025-03-10 00:41:36",
-                "fecha_eliminacion": "2025-03-10 00:41:39",
-                "metric": "127 MiB"
+                "id": "c3b9024a12d6",
+                "fecha_creacion": "2025-03-10 10:49:41",
+                "fecha_eliminacion": "2025-03-10 10:49:44",
+                "metric": "118 MiB"
             },
             {
-                "id": "2c342099849a",
-                "fecha_creacion": "2025-03-10 00:41:36",
-                "fecha_eliminacion": "2025-03-10 00:42:08",
-                "metric": "122 MiB"
-            },
-            {
-                "id": "8da0cd97a3b7",
-                "fecha_creacion": "2025-03-10 00:42:05",
-                "fecha_eliminacion": "2025-03-10 00:42:08",
+                "id": "d836a61163af",
+                "fecha_creacion": "2025-03-10 10:49:41",
+                "fecha_eliminacion": "2025-03-10 10:50:30",
                 "metric": "124 MiB"
             },
             {
-                "id": "fc22d4d68342",
-                "fecha_creacion": "2025-03-10 00:42:05",
-                "fecha_eliminacion": "2025-03-10 00:42:08",
-                "metric": "79 MiB"
-            },
-            {
-                "id": "0b61fc172082",
-                "fecha_creacion": "2025-03-10 00:42:05",
+                "id": "36832f8531b5",
+                "fecha_creacion": "2025-03-10 10:50:27",
                 "fecha_eliminacion": null,
-                "metric": "106 MiB"
+                "metric": "112 MiB"
             }
         ],
         "io": [
             {
-                "id": "c465cd5950ff",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:17",
-                "metric": "1752 ops"
+                "id": "6cd185042605",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:48:56",
+                "metric": "1756 ops"
             },
             {
-                "id": "bf69714eb165",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:17",
-                "metric": "1887 ops"
+                "id": "de030d464e3c",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:48:56",
+                "metric": "1844 ops"
             },
             {
-                "id": "b4696ddc9b0c",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:39",
-                "metric": "1948 ops"
+                "id": "6eb60d21d756",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:48:56",
+                "metric": "1891 ops"
             },
             {
-                "id": "2f6ee81b68a3",
-                "fecha_creacion": "2025-03-10 00:41:36",
-                "fecha_eliminacion": "2025-03-10 00:42:08",
-                "metric": "573 ops"
+                "id": "a88fbb4686bd",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:49:19",
+                "metric": "1957 ops"
             },
             {
-                "id": "bce2e15790df",
-                "fecha_creacion": "2025-03-10 00:42:05",
-                "fecha_eliminacion": "2025-03-10 00:42:44",
-                "metric": "568 ops"
+                "id": "9b1a4e5992e8",
+                "fecha_creacion": "2025-03-10 10:49:16",
+                "fecha_eliminacion": "2025-03-10 10:49:44",
+                "metric": "308 ops"
             },
             {
-                "id": "48d85327e747",
-                "fecha_creacion": "2025-03-10 00:42:41",
-                "fecha_eliminacion": "2025-03-10 00:42:44",
-                "metric": "275 ops"
+                "id": "0709f1f28035",
+                "fecha_creacion": "2025-03-10 10:49:41",
+                "fecha_eliminacion": "2025-03-10 10:49:44",
+                "metric": "366 ops"
             },
             {
-                "id": "7f70129e6c37",
-                "fecha_creacion": "2025-03-10 00:42:41",
-                "fecha_eliminacion": "2025-03-10 00:42:44",
-                "metric": "263 ops"
+                "id": "9171c2a1b9f8",
+                "fecha_creacion": "2025-03-10 10:49:41",
+                "fecha_eliminacion": "2025-03-10 10:50:10",
+                "metric": "356 ops"
             },
             {
-                "id": "417e13d31149",
-                "fecha_creacion": "2025-03-10 00:42:41",
-                "fecha_eliminacion": "2025-03-10 00:42:44",
-                "metric": "267 ops"
+                "id": "1e6976248bea",
+                "fecha_creacion": "2025-03-10 10:50:07",
+                "fecha_eliminacion": "2025-03-10 10:50:10",
+                "metric": "183 ops"
             },
             {
-                "id": "c57775786c0a",
-                "fecha_creacion": "2025-03-10 00:42:41",
+                "id": "a483ba6017ad",
+                "fecha_creacion": "2025-03-10 10:50:07",
+                "fecha_eliminacion": "2025-03-10 10:50:10",
+                "metric": "191 ops"
+            },
+            {
+                "id": "570aa2e18fc4",
+                "fecha_creacion": "2025-03-10 10:50:07",
                 "fecha_eliminacion": null,
-                "metric": "265 ops"
+                "metric": "187 ops"
             }
         ],
         "disco": [
             {
-                "id": "b604d6e8e6b9",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:17",
-                "metric": "2700 MiB"
+                "id": "2993ac0a0f53",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:48:56",
+                "metric": "3600 MiB"
             },
             {
-                "id": "9b9fda3ac9a7",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:17",
-                "metric": "4529 MiB"
+                "id": "e6fda252fb27",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:48:56",
+                "metric": "4241 MiB"
             },
             {
-                "id": "373ec60b2fed",
-                "fecha_creacion": "2025-03-10 00:41:14",
-                "fecha_eliminacion": "2025-03-10 00:41:39",
-                "metric": "5153 MiB"
+                "id": "515efeff7c5c",
+                "fecha_creacion": "2025-03-10 10:48:53",
+                "fecha_eliminacion": "2025-03-10 10:49:19",
+                "metric": "4626 MiB"
             },
             {
-                "id": "46ef1d4213c2",
-                "fecha_creacion": "2025-03-10 00:41:36",
-                "fecha_eliminacion": "2025-03-10 00:42:08",
-                "metric": "7370 MiB"
+                "id": "699bda173300",
+                "fecha_creacion": "2025-03-10 10:49:16",
+                "fecha_eliminacion": "2025-03-10 10:49:19",
+                "metric": "5940 MiB"
             },
             {
-                "id": "0ec4402aecb9",
-                "fecha_creacion": "2025-03-10 00:42:05",
-                "fecha_eliminacion": "2025-03-10 00:42:08",
-                "metric": "8304 MiB"
+                "id": "9a3f66b2ddff",
+                "fecha_creacion": "2025-03-10 10:49:16",
+                "fecha_eliminacion": "2025-03-10 10:49:44",
+                "metric": "6190 MiB"
             },
             {
-                "id": "59ab1f29c889",
-                "fecha_creacion": "2025-03-10 00:42:05",
+                "id": "fa4f3411a55b",
+                "fecha_creacion": "2025-03-10 10:49:41",
+                "fecha_eliminacion": "2025-03-10 10:50:10",
+                "metric": "6926 MiB"
+            },
+            {
+                "id": "df40a7c75d29",
+                "fecha_creacion": "2025-03-10 10:50:07",
+                "fecha_eliminacion": "2025-03-10 10:50:10",
+                "metric": "5519 MiB"
+            },
+            {
+                "id": "519c27a59802",
+                "fecha_creacion": "2025-03-10 10:50:07",
+                "fecha_eliminacion": "2025-03-10 10:50:10",
+                "metric": "6658 MiB"
+            },
+            {
+                "id": "8b83f5ef78c7",
+                "fecha_creacion": "2025-03-10 10:50:07",
+                "fecha_eliminacion": "2025-03-10 10:50:30",
+                "metric": "6427 MiB"
+            },
+            {
+                "id": "5bc20bf127ee",
+                "fecha_creacion": "2025-03-10 10:50:27",
                 "fecha_eliminacion": null,
-                "metric": "6013 MiB"
+                "metric": "8936 MiB"
             }
         ]
     }

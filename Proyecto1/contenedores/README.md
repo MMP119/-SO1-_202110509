@@ -8,6 +8,9 @@ Eliminar todos los contenedores:
 <br>
 docker rm -f $(docker ps -aq) 
 <br>
+Eliminar carpeta logs:
+<br>
+sudo rm -rf logs_data
 <br>
 
 Detener solo los contenedores de estrés y no el log:

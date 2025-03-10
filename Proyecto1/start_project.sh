@@ -3,7 +3,7 @@
 
 #función que crea contenedores cada 10 segundos durante 60 segundos
 function iniciar_creacion_contenedores() {
-    local end_time=$(( $(date +%s) + 60 ))
+    local end_time=$(( $(date +%s) + 30 ))
     while [ $(date +%s) -lt $end_time ]; do
         #ejecuta el script de creación de contenedores ubicado en la carpeta 'contenedores'
         ./contenedores/create.sh
