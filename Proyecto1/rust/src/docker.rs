@@ -1,24 +1,43 @@
 use std::process::Command;
 use std::collections::HashMap;
 
-/// Crea el contenedor que administrará los logs
+//crea el contenedor que administrará los logs usando docker-compose
 pub fn crear_contenedor_logs() -> Option<String> {
-    let output = Command::new("docker")
-        .arg("run")
-        .arg("-d")
-        .arg("--name")
-        .arg("logs_manager")
-        .arg("-p")
-        .arg("8000:8000")
-        .arg("-v")
-        .arg(format!("{}:/data", std::env::current_dir().unwrap().join("logs_data").display()))
-        .arg("logs_container") 
-        .output()
-        .expect("Error al crear el contenedor de logs");
 
-    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let dir = std::env::current_dir().expect("Error al obtener el directorio actual");
+    let dir = dir.join("src");
+    let dir = dir.to_str().expect("Error al convertir el path a string");
+    println!("{}", dir);
+
+    // Levanta el servicio "logs_manager" en modo detached
+    let output = Command::new("docker-compose")
+        .current_dir(dir)
+        .arg("up")
+        .arg("-d")
+        .arg("logs_manager")
+        .output()
+        .expect("Error al ejecutar docker-compose up");
+
+    if !output.status.success() {
+        eprintln!(
+            "❌ Error al crear el contenedor de logs: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        return None;
+    }
+
+    // Obtenemos el ID del contenedor usando docker-compose ps
+    let output_ps = Command::new("docker-compose")
+        .current_dir(dir)
+        .arg("ps")
+        .arg("-q")
+        .arg("logs_manager")
+        .output()
+        .expect("Error al ejecutar docker-compose ps");
+
+    let stdout = String::from_utf8_lossy(&output_ps.stdout).trim().to_string();
     if stdout.is_empty() {
-        eprintln!("❌ Error al crear el contenedor de logs");
+        eprintln!("❌ Error: no se obtuvo el ID del contenedor de logs.");
         None
     } else {
         println!("📂 Contenedor de logs creado: {}", stdout);
@@ -51,7 +70,7 @@ pub fn obtener_contenedores_docker() -> HashMap<String, (String, String)> {
     contenedores
 }
 
-// Elimina un contenedor dado su ID.
+//elimina un contenedor dado su ID.
 pub fn eliminar_contenedor(id: String) {
     let output = Command::new("docker")
         .arg("rm")

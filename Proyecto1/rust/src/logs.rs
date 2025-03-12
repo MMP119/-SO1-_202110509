@@ -2,7 +2,7 @@ use crate::metrics::SysInfo;
 use std::collections::HashSet;
 use serde::Serialize;
 
-/// Estructura para almacenar la información de la memoria junto con el timestamp.
+//estructura para almacenar la información de la memoria junto con el timestamp.
 #[derive(Debug, Serialize)]
 #[allow(dead_code)]
 pub struct MemoryLog {
@@ -20,7 +20,7 @@ pub struct CpuLog{
     pub cpu_usage: String,
 }
 
-// Estructura para almacenar la información de cada contenedor en el log.
+//estructura para almacenar la información de cada contenedor en el log.
 #[derive(Debug, Clone, Serialize)]
 #[allow(dead_code)]
 pub struct LogContainer {
@@ -30,7 +30,7 @@ pub struct LogContainer {
     pub metric: Option<String>,
 }
 
-//Registro global de logs, que agrupa la información de memoria y los contenedores por categoría.
+//registro global de logs, que agrupa la información de memoria y los contenedores por categoría.
 #[derive(Debug, Default, Serialize)]
 pub struct RegistroLogs {
     pub memory_info: Option<MemoryLog>,
@@ -54,7 +54,7 @@ impl RegistroLogs {
     }
 }
 
-//Trait para marcar en el log la fecha de eliminación de los contenedores.
+//trait para marcar en el log la fecha de eliminación de los contenedores.
 pub trait MarcarEliminacion {
     fn marcar_eliminacion(&mut self, ids: &Vec<String>, fecha: &str);
 }

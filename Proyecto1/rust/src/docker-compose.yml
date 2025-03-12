@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  logs_manager:
+    image: logs_container
+    container_name: logs_manager
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs_data:/data
