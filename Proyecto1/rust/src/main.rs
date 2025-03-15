@@ -76,7 +76,7 @@ fn main() {
             break;
         }
 
-        println!("📌 Leyendo métricas del sistema...");
+        println!("LEYENDO METRICAS...");
 
         if let Some(data) = metrics::leer_metricas() {
             let now = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
@@ -86,10 +86,10 @@ fn main() {
                 reg.actualizar_memoria(&data.memory, &data.cpu_usage, now.clone());
             }
 
-            println!("✅ Memoria Total: {}", data.memory.total_ram);
-            println!("✅ Memoria Libre: {}", data.memory.free_ram);
-            println!("✅ Memoria Usada: {}", data.memory.used_ram);
-            println!("✅ Uso de CPU: {}", data.cpu_usage.cpu_usage);
+            println!("--Memoria Total: {}", data.memory.total_ram);
+            println!("--Memoria Libre: {}", data.memory.free_ram);
+            println!("--Memoria Usada: {}", data.memory.used_ram);
+            println!("--Uso de CPU: {}", data.cpu_usage.cpu_usage);
 
             let contenedores_a_eliminar = logs::gestionar_contenedores(&data, &now);
 
@@ -115,7 +115,7 @@ fn main() {
             }
         }
 
-        println!("⏳ Esperando 10 segundos...");
+        println!("Esperando 10 segundos...");
         
         for _ in 0..100 {
             if TERMINAR.load(Ordering::Relaxed) {

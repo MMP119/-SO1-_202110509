@@ -11,16 +11,16 @@ function iniciar_creacion_contenedores() {
     done
 }
 
-echo "🚀 Iniciando la creación de contenedores durante 30 segundos..."
+echo "Iniciando la creación de contenedores durante 30 segundos..."
 iniciar_creacion_contenedores &
 PID_CREACION=$!
 echo "PID de creación de contenedores: $PID_CREACION"
 
-echo "⏳ Esperando 10 segundos..."
+echo "Esperando 10 segundos..."
 sleep 10
 
 #inicia el servicio Rust
-echo "🚀 Iniciando el servicio Rust..."
+echo "Iniciando el servicio Rust..."
 cd rust || { echo "Directorio rust no encontrado"; exit 1; }
 cargo run &
 PID_RUST=$!
@@ -30,7 +30,7 @@ cd ..
 #espera a que el servicio Rust finalice
 wait $PID_RUST
 
-echo "🛑 Servicio Rust finalizado. Deteniendo la creación de contenedores..."
+echo "Servicio Rust finalizado. Deteniendo la creación de contenedores..."
 kill $PID_CREACION
 
-echo "✅ Proyecto finalizado."
+echo "Proyecto finalizado."
