@@ -581,5 +581,389 @@
                 "metric": "4367 MiB"
             }
         ]
+    },
+    {
+        "timestamp": "2025-03-15 07:58:37",
+        "memory_total": "15236 MB",
+        "memory_free": "9718 MB",
+        "memory_used": "5518 MB",
+        "cpu_usage": "6%",
+        "cpu": [
+            {
+                "id": "1d61fea7993f",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:57:07",
+                "metric": "20%"
+            },
+            {
+                "id": "41bdb6f6b8d3",
+                "fecha_creacion": "2025-03-15 07:57:04",
+                "fecha_eliminacion": "2025-03-15 07:57:39",
+                "metric": "20%"
+            },
+            {
+                "id": "cc5384ed4295",
+                "fecha_creacion": "2025-03-15 07:57:36",
+                "fecha_eliminacion": "2025-03-15 07:57:39",
+                "metric": "20%"
+            },
+            {
+                "id": "0fe03dbc0cf1",
+                "fecha_creacion": "2025-03-15 07:57:36",
+                "fecha_eliminacion": "2025-03-15 07:58:03",
+                "metric": "20%"
+            },
+            {
+                "id": "f1144b7e7f5a",
+                "fecha_creacion": "2025-03-15 07:58:00",
+                "fecha_eliminacion": null,
+                "metric": "20%"
+            }
+        ],
+        "ram": [
+            {
+                "id": "d0f1f83f4eb2",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:56:34",
+                "metric": "40 MiB"
+            },
+            {
+                "id": "ba7076fefc4e",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:56:34",
+                "metric": "128 MiB"
+            },
+            {
+                "id": "dcf6f2d09428",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:57:07",
+                "metric": "121 MiB"
+            },
+            {
+                "id": "4cf0d747231c",
+                "fecha_creacion": "2025-03-15 07:57:04",
+                "fecha_eliminacion": "2025-03-15 07:57:39",
+                "metric": "126 MiB"
+            },
+            {
+                "id": "2b623d8592d5",
+                "fecha_creacion": "2025-03-15 07:57:36",
+                "fecha_eliminacion": "2025-03-15 07:58:03",
+                "metric": "113 MiB"
+            },
+            {
+                "id": "2df18b0625e3",
+                "fecha_creacion": "2025-03-15 07:58:00",
+                "fecha_eliminacion": "2025-03-15 07:58:03",
+                "metric": "127 MiB"
+            },
+            {
+                "id": "77f425176cb7",
+                "fecha_creacion": "2025-03-15 07:58:00",
+                "fecha_eliminacion": null,
+                "metric": "122 MiB"
+            }
+        ],
+        "io": [
+            {
+                "id": "e9c42d5d181d",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:56:34",
+                "metric": "1411 ops"
+            },
+            {
+                "id": "4f8fe9f5c46d",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:56:34",
+                "metric": "1437 ops"
+            },
+            {
+                "id": "86ba2d669c35",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:56:34",
+                "metric": "1427 ops"
+            },
+            {
+                "id": "28e4b1dea0b1",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:57:07",
+                "metric": "1455 ops"
+            },
+            {
+                "id": "d9438db75b72",
+                "fecha_creacion": "2025-03-15 07:57:04",
+                "fecha_eliminacion": "2025-03-15 07:57:07",
+                "metric": "76 ops"
+            },
+            {
+                "id": "aa556ab342e4",
+                "fecha_creacion": "2025-03-15 07:57:04",
+                "fecha_eliminacion": "2025-03-15 07:57:39",
+                "metric": "86 ops"
+            },
+            {
+                "id": "e319b4eea002",
+                "fecha_creacion": "2025-03-15 07:57:36",
+                "fecha_eliminacion": "2025-03-15 07:58:03",
+                "metric": "126 ops"
+            },
+            {
+                "id": "03a7bbaaac15",
+                "fecha_creacion": "2025-03-15 07:58:00",
+                "fecha_eliminacion": "2025-03-15 07:58:03",
+                "metric": "1071 ops"
+            },
+            {
+                "id": "149082c5a277",
+                "fecha_creacion": "2025-03-15 07:58:00",
+                "fecha_eliminacion": "2025-03-15 07:58:03",
+                "metric": "1265 ops"
+            },
+            {
+                "id": "e3b63d417a0d",
+                "fecha_creacion": "2025-03-15 07:58:00",
+                "fecha_eliminacion": null,
+                "metric": "1719 ops"
+            }
+        ],
+        "disco": [
+            {
+                "id": "97e68928b0b5",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": "2025-03-15 07:56:34",
+                "metric": "3838 MiB"
+            },
+            {
+                "id": "b48caa0628a8",
+                "fecha_creacion": "2025-03-15 07:56:30",
+                "fecha_eliminacion": null,
+                "metric": "4849 MiB"
+            },
+            {
+                "id": "e41e4afa34cb",
+                "fecha_creacion": "2025-03-15 07:57:04",
+                "fecha_eliminacion": "2025-03-15 07:57:07",
+                "metric": "3556 MiB"
+            },
+            {
+                "id": "bd7f605c86dc",
+                "fecha_creacion": "2025-03-15 07:57:04",
+                "fecha_eliminacion": "2025-03-15 07:57:07",
+                "metric": "2990 MiB"
+            },
+            {
+                "id": "baf66d18a23c",
+                "fecha_creacion": "2025-03-15 07:57:04",
+                "fecha_eliminacion": "2025-03-15 07:57:39",
+                "metric": "3062 MiB"
+            },
+            {
+                "id": "cc477fcc68e1",
+                "fecha_creacion": "2025-03-15 07:57:36",
+                "fecha_eliminacion": "2025-03-15 07:57:39",
+                "metric": "4787 MiB"
+            },
+            {
+                "id": "d39ab18b3245",
+                "fecha_creacion": "2025-03-15 07:57:36",
+                "fecha_eliminacion": null,
+                "metric": "2980 MiB"
+            }
+        ]
+    },
+    {
+        "timestamp": "2025-03-15 08:44:12",
+        "memory_total": "15236 MB",
+        "memory_free": "7288 MB",
+        "memory_used": "7948 MB",
+        "cpu_usage": "6%",
+        "cpu": [
+            {
+                "id": "8cd81207683e",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:29",
+                "metric": "19%"
+            },
+            {
+                "id": "d18bd2cdefd3",
+                "fecha_creacion": "2025-03-15 08:42:26",
+                "fecha_eliminacion": "2025-03-15 08:42:29",
+                "metric": "20%"
+            },
+            {
+                "id": "50eee42b2aae",
+                "fecha_creacion": "2025-03-15 08:42:26",
+                "fecha_eliminacion": "2025-03-15 08:43:24",
+                "metric": "19%"
+            },
+            {
+                "id": "f39aca55f662",
+                "fecha_creacion": "2025-03-15 08:43:21",
+                "fecha_eliminacion": null,
+                "metric": "20%"
+            }
+        ],
+        "ram": [
+            {
+                "id": "97e5b1b67fc6",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:06",
+                "metric": "77 MiB"
+            },
+            {
+                "id": "5ba395c68c1d",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:29",
+                "metric": "126 MiB"
+            },
+            {
+                "id": "fdf32e3f658a",
+                "fecha_creacion": "2025-03-15 08:42:26",
+                "fecha_eliminacion": "2025-03-15 08:42:29",
+                "metric": "127 MiB"
+            },
+            {
+                "id": "2f8d15c97cb9",
+                "fecha_creacion": "2025-03-15 08:42:26",
+                "fecha_eliminacion": "2025-03-15 08:42:56",
+                "metric": "128 MiB"
+            },
+            {
+                "id": "4125ae4333ff",
+                "fecha_creacion": "2025-03-15 08:42:53",
+                "fecha_eliminacion": "2025-03-15 08:43:24",
+                "metric": "127 MiB"
+            },
+            {
+                "id": "3cea2997aa9d",
+                "fecha_creacion": "2025-03-15 08:43:21",
+                "fecha_eliminacion": "2025-03-15 08:43:24",
+                "metric": "124 MiB"
+            },
+            {
+                "id": "0b23a5d9eb10",
+                "fecha_creacion": "2025-03-15 08:43:21",
+                "fecha_eliminacion": "2025-03-15 08:43:43",
+                "metric": "21 MiB"
+            },
+            {
+                "id": "f37601f134a3",
+                "fecha_creacion": "2025-03-15 08:43:40",
+                "fecha_eliminacion": null,
+                "metric": "47 MiB"
+            }
+        ],
+        "io": [
+            {
+                "id": "0ffb3a6e42cf",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:06",
+                "metric": "1619 ops"
+            },
+            {
+                "id": "10e80e07260b",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:06",
+                "metric": "1606 ops"
+            },
+            {
+                "id": "48b245aa9496",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:06",
+                "metric": "1609 ops"
+            },
+            {
+                "id": "a95de9634cbe",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:29",
+                "metric": "1647 ops"
+            },
+            {
+                "id": "422a3a7c59f4",
+                "fecha_creacion": "2025-03-15 08:42:26",
+                "fecha_eliminacion": "2025-03-15 08:42:56",
+                "metric": "181 ops"
+            },
+            {
+                "id": "a591313b4a5c",
+                "fecha_creacion": "2025-03-15 08:42:53",
+                "fecha_eliminacion": "2025-03-15 08:42:56",
+                "metric": "229 ops"
+            },
+            {
+                "id": "0361a4927a2d",
+                "fecha_creacion": "2025-03-15 08:42:53",
+                "fecha_eliminacion": "2025-03-15 08:42:56",
+                "metric": "233 ops"
+            },
+            {
+                "id": "d45d58f75ccf",
+                "fecha_creacion": "2025-03-15 08:42:53",
+                "fecha_eliminacion": "2025-03-15 08:42:56",
+                "metric": "229 ops"
+            },
+            {
+                "id": "9ea8064c60e3",
+                "fecha_creacion": "2025-03-15 08:42:53",
+                "fecha_eliminacion": "2025-03-15 08:43:24",
+                "metric": "76 ops"
+            },
+            {
+                "id": "81f308837ab2",
+                "fecha_creacion": "2025-03-15 08:43:21",
+                "fecha_eliminacion": "2025-03-15 08:43:43",
+                "metric": "397 ops"
+            },
+            {
+                "id": "fd4c028487ec",
+                "fecha_creacion": "2025-03-15 08:43:40",
+                "fecha_eliminacion": null,
+                "metric": "3407 ops"
+            }
+        ],
+        "disco": [
+            {
+                "id": "3d59d5a100ab",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:06",
+                "metric": "3816 MiB"
+            },
+            {
+                "id": "fd066b1ca28e",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:06",
+                "metric": "3917 MiB"
+            },
+            {
+                "id": "c7d9e211950e",
+                "fecha_creacion": "2025-03-15 08:42:03",
+                "fecha_eliminacion": "2025-03-15 08:42:29",
+                "metric": "5791 MiB"
+            },
+            {
+                "id": "66183ba8afdb",
+                "fecha_creacion": "2025-03-15 08:42:26",
+                "fecha_eliminacion": "2025-03-15 08:42:56",
+                "metric": "3376 MiB"
+            },
+            {
+                "id": "e4fa5335b2b5",
+                "fecha_creacion": "2025-03-15 08:42:53",
+                "fecha_eliminacion": "2025-03-15 08:43:24",
+                "metric": "5157 MiB"
+            },
+            {
+                "id": "b3cf0530a5ee",
+                "fecha_creacion": "2025-03-15 08:43:21",
+                "fecha_eliminacion": "2025-03-15 08:43:24",
+                "metric": "3539 MiB"
+            },
+            {
+                "id": "97d10f51b793",
+                "fecha_creacion": "2025-03-15 08:43:21",
+                "fecha_eliminacion": null,
+                "metric": "4609 MiB"
+            }
+        ]
     }
 ]
