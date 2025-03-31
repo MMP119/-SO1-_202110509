@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "api_go/proto;api"; //el nombre de mi modulo de go usado, el que está en go mod
+
+
+// mensaje que se enviará con los datos del clima.
+message WeatherInput {
+  string description = 1;
+  string country = 2;
+  string weather = 3;
+}
+
+// respuesta simple.
+message PublishResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// definición del servicio gRPC.
+service Publisher {
+  // Método para publicar en RabbitMQ.
+  rpc PublishRabbit(WeatherInput) returns (PublishResponse);
+  
+  // metodo para publicar en Kafka.
+  rpc PublishKafka(WeatherInput) returns (PublishResponse);
+}
