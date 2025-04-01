@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"time"
+	"github.com/rabbitmq/amqp091-go"
 	"github.com/segmentio/kafka-go"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection" 
@@ -16,10 +17,59 @@ type server struct {
 	api.UnimplementedPublisherServer
 }
 
+
+func publishToRabbit(message string) error {
+	conn, err := amqp091.Dial("amqp://guest:guest@localhost:5672/")
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	ch, err := conn.Channel()
+	if err != nil {
+		return err
+	}
+	defer ch.Close()
+
+	q, err := ch.QueueDeclare(
+		"message",
+		false,
+		false,
+		false,
+		false,
+		nil,
+	)
+	if err != nil {
+		return err
+	}
+
+	err = ch.Publish(
+		"",       // default exchange
+		q.Name,   // routing key
+		false,
+		false,
+		amqp091.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(message),
+		},
+	)
+	return err
+}
+
+
 func (s *server) PublishRabbit(ctx context.Context, in *api.WeatherInput) (*api.PublishResponse, error) {
 	log.Printf("Recibido PublishRabbit: %+v", in)
+	message := "Clima: " + in.Description + " - " + in.Country + " - " + in.Weather
+
+	err := publishToRabbit(message)
+	if err != nil {
+		log.Printf("Error publicando en RabbitMQ: %v", err)
+		return &api.PublishResponse{Success: false, Message: "Error al publicar en RabbitMQ"}, err
+	}
+
 	return &api.PublishResponse{Success: true, Message: "Publicado en RabbitMQ"}, nil
 }
+
 
 
 // función para publicar un mensaje en Kafka

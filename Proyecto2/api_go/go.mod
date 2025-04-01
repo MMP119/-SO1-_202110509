@@ -3,6 +3,7 @@ module api_go
 go 1.24.1
 
 require (
+	github.com/rabbitmq/amqp091-go v1.10.0
 	github.com/redis/go-redis/v9 v9.7.3
 	github.com/segmentio/kafka-go v0.4.47
 	google.golang.org/grpc v1.71.0
