@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kafka-consumer
+  name: rabbitmq-consumer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka-consumer
+      app: rabbitmq-consumer
   template:
     metadata:
       labels:
-        app: kafka-consumer
+        app: rabbitmq-consumer
     spec:
       containers:
-        - name: kafka-consumer
-          image: kafka_consumer:latest
+        - name: rabbitmq-consumer
+          image: rabbitmq_consumer:latest
           imagePullPolicy: Never
           env:
-            - name: KAFKA_ADDR
-              value: kafka:9092
+            - name: RABBITMQ_ADDR
+              value: amqp://guest:guest@rabbitmq:5672/
             - name: REDIS_ADDR
               value: redis:6379

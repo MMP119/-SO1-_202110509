@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 	"time"
 
@@ -14,14 +15,27 @@ import (
 var ctx = context.Background()
 
 func main() {
+	// Obtener dirección de Redis
+	redisAddr := os.Getenv("REDIS_ADDR")
+	if redisAddr == "" {
+		redisAddr = "localhost:6379"
+	}
+
 	// Conexión a Redis
 	rdb := redis.NewClient(&redis.Options{
-		Addr: "localhost:6379",
+		Addr: redisAddr,
 	})
 	defer rdb.Close()
 
+	// Obtener dirección de RabbitMQ
+	rabbitAddr := os.Getenv("RABBITMQ_ADDR")
+	if rabbitAddr == "" {
+		rabbitAddr = "amqp://guest:guest@localhost:5672/"
+	}
+	log.Printf("Dirección de RabbitMQ: %s", rabbitAddr)
+
 	// Conexión a RabbitMQ
-	conn, err := amqp091.Dial("amqp://guest:guest@localhost:5672/")
+	conn, err := amqp091.Dial(rabbitAddr)
 	if err != nil {
 		log.Fatalf("Error conectando a RabbitMQ: %v", err)
 	}
@@ -33,14 +47,13 @@ func main() {
 	}
 	defer ch.Close()
 
-	// Asegurarse de que la cola exista
 	q, err := ch.QueueDeclare(
-		"message", // nombre de la cola
-		false,     // durable
-		false,     // auto-delete
-		false,     // exclusive
-		false,     // no-wait
-		nil,       // argumentos
+		"message",
+		false,
+		false,
+		false,
+		false,
+		nil,
 	)
 	if err != nil {
 		log.Fatalf("Error declarando cola: %v", err)
@@ -49,8 +62,8 @@ func main() {
 	msgs, err := ch.Consume(
 		q.Name,
 		"",
-		true,  // auto-ack
-		false, // exclusive
+		true,
+		false,
 		false,
 		false,
 		nil,
@@ -62,7 +75,6 @@ func main() {
 	fmt.Println("RabbitMQ consumer corriendo...")
 
 	counter := 1
-
 	for msg := range msgs {
 		text := string(msg.Body)
 		key := "mensaje:" + strconv.Itoa(counter)
