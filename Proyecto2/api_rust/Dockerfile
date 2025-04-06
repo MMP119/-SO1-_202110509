@@ -1,16 +1,20 @@
-# Etapa 1: Construir el binario con Rust
-FROM rust:latest as builder
+# Etapa 1: Compilar usando musl para generar binario estático
+FROM clux/muslrust:stable AS builder
+
+# Crear carpeta de trabajo
 WORKDIR /app
-# Copia todos los archivos del proyecto al contenedor
+
+# Copiar todos los archivos del proyecto
 COPY . .
-# Compila el proyecto en modo release
+
+# Compilar en release usando musl como target
 RUN cargo build --release
 
-# Etapa 2: Crear una imagen ligera para ejecutar el binario
+# Etapa 2: Crear imagen final ultra liviana
 FROM debian:bookworm-slim
-# Copia el binario compilado desde la etapa builder
-COPY --from=builder /app/target/release/api_rust /usr/local/bin/api_rust
-# Expone el puerto 8080 (el que usa la API)
-EXPOSE 8080
-# Comando para ejecutar el binario
-CMD ["api_rust"]
+
+# Copiar el binario compilado 
+COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/api_rust /usr/local/bin/api_rust
+
+# Ejecutar el binario directamente
+CMD ["/usr/local/bin/api_rust"]
