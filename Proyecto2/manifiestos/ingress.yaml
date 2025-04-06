@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: weather-ingress
+spec:
+  rules:
+  - host: 192.168.49.2.nip.io
+    http:
+      paths:
+      - path: /input
+        pathType: Prefix
+        backend:
+          service:
+            name: api-rust-service
+            port:
+              number: 8080
