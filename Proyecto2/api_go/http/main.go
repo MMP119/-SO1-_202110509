@@ -27,8 +27,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Printf("Recibido: %+v\n", input)
 
-	// conectar al servidor gRPC (asegúrate de que esté corriendo en localhost:50051)
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
+	// conectar al servidor gRPC 
+	conn, err := grpc.Dial("grpc-service:50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		http.Error(w, "No se pudo conectar al servidor gRPC", http.StatusInternalServerError)
 		return

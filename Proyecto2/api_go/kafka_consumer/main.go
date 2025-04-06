@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/segmentio/kafka-go"
@@ -13,15 +14,27 @@ import (
 var ctx = context.Background()
 
 func main() {
+	// Obtener dirección de Redis desde variable de entorno
+	redisAddr := os.Getenv("REDIS_ADDR")
+	if redisAddr == "" {
+		redisAddr = "localhost:6379"
+	}
+
 	// Conectar a Redis
 	rdb := redis.NewClient(&redis.Options{
-		Addr: "localhost:6379", // puerto por defecto
+		Addr: redisAddr,
 	})
 	defer rdb.Close()
 
+	// Obtener dirección de Kafka desde variable de entorno
+	kafkaAddr := os.Getenv("KAFKA_ADDR")
+	if kafkaAddr == "" {
+		kafkaAddr = "localhost:9092"
+	}
+
 	// Conectar a Kafka
 	reader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{"localhost:9092"},
+		Brokers: []string{kafkaAddr},
 		Topic:   "message",
 		GroupID: "kafka-consumer-group",
 	})

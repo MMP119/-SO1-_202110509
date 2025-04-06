@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"time"
+	"os"
 	"github.com/rabbitmq/amqp091-go"
 	"github.com/segmentio/kafka-go"
 	"google.golang.org/grpc"
@@ -19,7 +20,12 @@ type server struct {
 
 
 func publishToRabbit(message string) error {
-	conn, err := amqp091.Dial("amqp://guest:guest@localhost:5672/")
+	rabbitAddr := os.Getenv("RABBITMQ_ADDR")
+	if rabbitAddr == "" {
+		rabbitAddr = "amqp://guest:guest@rabbitmq:5672/"
+	}
+
+	conn, err := amqp091.Dial(rabbitAddr)
 	if err != nil {
 		return err
 	}
@@ -43,9 +49,9 @@ func publishToRabbit(message string) error {
 		return err
 	}
 
-	err = ch.Publish(
-		"",       // default exchange
-		q.Name,   // routing key
+	return ch.Publish(
+		"",
+		q.Name,
 		false,
 		false,
 		amqp091.Publishing{
@@ -53,7 +59,6 @@ func publishToRabbit(message string) error {
 			Body:        []byte(message),
 		},
 	)
-	return err
 }
 
 
@@ -74,9 +79,14 @@ func (s *server) PublishRabbit(ctx context.Context, in *api.WeatherInput) (*api.
 
 // función para publicar un mensaje en Kafka
 func publishToKafka(message string) error {
+	kafkaAddr := os.Getenv("KAFKA_ADDR")
+	if kafkaAddr == "" {
+		kafkaAddr = "kafka:9092"
+	}
+
 	writer := kafka.NewWriter(kafka.WriterConfig{
-		Brokers:  []string{"localhost:9092"}, 
-		Topic:    "message",                  
+		Brokers:  []string{kafkaAddr},
+		Topic:    "message",
 		Balancer: &kafka.LeastBytes{},
 	})
 	defer writer.Close()
@@ -84,10 +94,9 @@ func publishToKafka(message string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	err := writer.WriteMessages(ctx, kafka.Message{
+	return writer.WriteMessages(ctx, kafka.Message{
 		Value: []byte(message),
 	})
-	return err
 }
 
 
