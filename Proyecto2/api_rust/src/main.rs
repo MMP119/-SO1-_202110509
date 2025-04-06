@@ -17,6 +17,7 @@ async fn input_handler(item: web::Json<WeatherInput>) -> impl Responder {
     let result = client
         .post("http://api-http-service:8081/input") // nombre del service de Go
         .json(&*item)
+        
         .send()
         .await;
 
