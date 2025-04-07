@@ -33,6 +33,7 @@ minikube kubectl -- apply -f rabbitmq.yaml
 minikube kubectl -- apply -f grafana.yaml
 minikube kubectl -- apply -f grafana-ingress.yaml
 minikube kubectl -- apply -f ingress.yaml
+minikube kubectl -- apply -f valkey.yaml
 
 
 minikube kubectl -- get pods
@@ -52,4 +53,5 @@ docker image prune
 Grafana:
 <br>
 redis://redis:6379
+redis://valkey:6379
 LRANGE mensajes 0 -1 //mostrar todos los mensajes en redis
