@@ -19,5 +19,5 @@ spec:
           env:
             - name: RABBITMQ_ADDR
               value: amqp://guest:guest@rabbitmq:5672/
-            - name: REDIS_ADDR
-              value: redis:6379
+            - name: VALKEY_ADDR
+              value: valkey:6379

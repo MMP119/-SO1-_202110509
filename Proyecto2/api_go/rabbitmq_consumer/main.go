@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/rabbitmq/amqp091-go"
@@ -16,21 +15,21 @@ var ctx = context.Background()
 
 func main() {
 	// Obtener dirección de Redis
-	redisAddr := os.Getenv("REDIS_ADDR")
-	if redisAddr == "" {
-		redisAddr = "localhost:6379"
+	valkeyAddr := os.Getenv("VALKEY_ADDR")
+	if valkeyAddr == "" {
+		valkeyAddr = "valkey:6379"
 	}
 
 	// Conexión a Redis
 	rdb := redis.NewClient(&redis.Options{
-		Addr: redisAddr,
+		Addr: valkeyAddr,
 	})
 	defer rdb.Close()
 
 	// Obtener dirección de RabbitMQ
 	rabbitAddr := os.Getenv("RABBITMQ_ADDR")
 	if rabbitAddr == "" {
-		rabbitAddr = "amqp://guest:guest@localhost:5672/"
+		rabbitAddr = "amqp://guest:guest@rabbitmq:5672/"
 	}
 	log.Printf("Dirección de RabbitMQ: %s", rabbitAddr)
 
@@ -47,44 +46,26 @@ func main() {
 	}
 	defer ch.Close()
 
-	q, err := ch.QueueDeclare(
-		"message",
-		false,
-		false,
-		false,
-		false,
-		nil,
-	)
+	q, err := ch.QueueDeclare("message", false, false, false, false, nil)
 	if err != nil {
 		log.Fatalf("Error declarando cola: %v", err)
 	}
 
-	msgs, err := ch.Consume(
-		q.Name,
-		"",
-		true,
-		false,
-		false,
-		false,
-		nil,
-	)
+	msgs, err := ch.Consume(q.Name, "", true, false, false, false, nil)
 	if err != nil {
 		log.Fatalf("Error al consumir: %v", err)
 	}
 
 	fmt.Println("RabbitMQ consumer corriendo...")
 
-	counter := 1
 	for msg := range msgs {
 		text := string(msg.Body)
-		key := "mensaje:" + strconv.Itoa(counter)
 
-		err := rdb.Set(ctx, key, text, 0).Err()
+		err := rdb.LPush(ctx, "mensajes", text).Err()
 		if err != nil {
 			log.Printf("Error guardando en Redis: %v", err)
 		} else {
-			log.Printf("Mensaje guardado en Redis [%s]: %s", key, text)
-			counter++
+			log.Printf("Mensaje guardado en Redis (lista): %s", text)
 		}
 
 		time.Sleep(1 * time.Second)

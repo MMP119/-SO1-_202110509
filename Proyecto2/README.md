@@ -41,12 +41,15 @@ minikube kubectl -- logs -l app=rabbitmq-consumer
 minikube ip
 
 
-docker rmi api_rust:lastest
-docker rmi rabbitmq_consumer:lastest
-docker rmi kafka_consumer:lastest
-docker rmi api_go_http:lastest
-docker rmi api_go_grpc:lastest
+docker rmi api_rust:latest
+docker rmi rabbitmq_consumer:latest
+docker rmi kafka_consumer:latest
+docker rmi api_go_http:latest
+docker rmi api_go_grpc:latest
 
 docker image prune
 
-
+Grafana:
+<br>
+redis://redis:6379
+LRANGE mensajes 0 -1 //mostrar todos los mensajes en redis

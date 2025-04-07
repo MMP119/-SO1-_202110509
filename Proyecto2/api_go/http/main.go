@@ -27,7 +27,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Printf("Recibido: %+v\n", input)
 
-	// conectar al servidor gRPC 
+	// conectar al servidor gRPC
 	conn, err := grpc.Dial("grpc-service:50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		http.Error(w, "No se pudo conectar al servidor gRPC", http.StatusInternalServerError)
@@ -39,25 +39,41 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	// llamar al método PublishRabbit con los datos recibidos
-	grpcResp, err := client.PublishRabbit(ctx, &api.WeatherInput{
+	// enviar a RabbitMQ
+	respRabbit, errRabbit := client.PublishRabbit(ctx, &api.WeatherInput{
 		Description: input.Description,
 		Country:     input.Country,
 		Weather:     input.Weather,
 	})
-	if err != nil {
-		http.Error(w, "Error en llamada gRPC", http.StatusInternalServerError)
-		return
+
+	// enviar a Kafka
+	respKafka, errKafka := client.PublishKafka(ctx, &api.WeatherInput{
+		Description: input.Description,
+		Country:     input.Country,
+		Weather:     input.Weather,
+	})
+
+	// Construir respuesta
+	response := map[string]interface{}{
+		"input": input,
 	}
 
-	// construir una respuesta que incluya la respuesta del servidor gRPC
-	response := map[string]interface{}{
-		"input":         input,
-		"grpc_response": grpcResp,
+	if errRabbit != nil {
+		response["rabbit_error"] = errRabbit.Error()
+	} else {
+		response["rabbit_response"] = respRabbit
 	}
+
+	if errKafka != nil {
+		response["kafka_error"] = errKafka.Error()
+	} else {
+		response["kafka_response"] = respKafka
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
+
 
 func main() {
 	http.HandleFunc("/input", handler)
