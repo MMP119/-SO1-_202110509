@@ -14,5 +14,5 @@ RUN go build -o rabbit_consumer main.go
 
 FROM debian:bookworm-slim
 COPY --from=builder /app/rabbitmq_consumer/rabbit_consumer /usr/local/bin/rabbit_consumer
-
+EXPOSE 5672
 CMD ["/usr/local/bin/rabbit_consumer"]

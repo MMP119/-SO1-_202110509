@@ -13,5 +13,5 @@ RUN go build -o kafka_consumer main.go
 FROM debian:bookworm-slim
 
 COPY --from=builder /app/kafka_consumer/kafka_consumer /usr/local/bin/kafka_consumer
-
+EXPOSE 9092
 CMD ["/usr/local/bin/kafka_consumer"]
