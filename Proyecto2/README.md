@@ -55,3 +55,9 @@ Grafana:
 redis://redis:6379
 redis://valkey:6379
 LRANGE mensajes 0 -1 //mostrar todos los mensajes en redis
+
+
+
+Poner a funcionar locust:
+<br>
+locust -H http://192.168.49.2.nip.io
