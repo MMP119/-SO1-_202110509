@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+    spec:
+      containers:
+        - name: kafka-consumer
+          image: harbor.HARBOR_PLACEHOLDER.nip.io/proyecto/kafka_consumer:latest
+          imagePullPolicy: Always
+          env:
+            - name: KAFKA_ADDR
+              value: kafka:9092
+            - name: REDIS_ADDR
+              value: redis:6379
+      imagePullSecrets:
+        - name: harbor-cred

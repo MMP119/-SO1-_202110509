@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-http-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-http
+  template:
+    metadata:
+      labels:
+        app: api-http
+    spec:
+      containers:
+        - name: api-http
+          image: harbor.HARBOR_PLACEHOLDER.nip.io/proyecto/api_go_http:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+      imagePullSecrets:
+        - name: harbor-cred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-http-service
+spec:
+  type: ClusterIP 
+  selector:
+    app: api-http
+  ports:
+    - port: 8081
+      targetPort: 8081

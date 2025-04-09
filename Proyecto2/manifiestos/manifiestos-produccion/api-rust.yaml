@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-rust-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-rust
+  template:
+    metadata:
+      labels:
+        app: api-rust
+    spec:
+      containers:
+        - name: api-rust
+          image: harbor.HARBOR_PLACEHOLDER.nip.io/proyecto/api_rust:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: harbor-cred  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-rust-service
+spec:
+  type: ClusterIP  #no se expone por nodeport, lo hará el Ingress
+  selector:
+    app: api-rust
+  ports:
+    - port: 8080
+      targetPort: 8080

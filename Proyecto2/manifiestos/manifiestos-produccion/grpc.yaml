@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc
+  template:
+    metadata:
+      labels:
+        app: grpc
+    spec:
+      containers:
+        - name: grpc-server
+          image: harbor.HARBOR_PLACEHOLDER.nip.io/proyecto/api_go_grpc:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 50051
+          env:
+            - name: RABBITMQ_ADDR
+              value: amqp://guest:guest@rabbitmq:5672/
+            - name: KAFKA_ADDR
+              value: kafka:9092
+      imagePullSecrets:
+        - name: harbor-cred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-service
+spec:
+  type: ClusterIP
+  selector:
+    app: grpc
+  ports:
+    - port: 50051
+      targetPort: 50051
