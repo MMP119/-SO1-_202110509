@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: grpc-server
-          image: harbor.HARBOR_PLACEHOLDER.nip.io/proyecto/api_go_grpc:latest
+          image: harbor.34.69.137.65.nip.io/proyecto/api_go_grpc:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 50051

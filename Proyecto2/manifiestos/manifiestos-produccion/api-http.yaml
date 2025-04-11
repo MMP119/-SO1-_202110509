@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-http
-          image: harbor.HARBOR_PLACEHOLDER.nip.io/proyecto/api_go_http:latest
+          image: harbor.34.69.137.65.nip.io/proyecto/api_go_http:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8081

@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-    - host: HARBOR_PLACEHOLDER.nip.io
+    - host: 34.69.137.65.nip.io
       http:
         paths:
           - path: /input(/|$)(.*)

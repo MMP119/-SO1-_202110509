@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: rabbitmq-consumer
-          image: harbor.HARBOR_PLACEHOLDER.nip.io/proyecto/rabbitmq_consumer:latest
+          image: harbor.34.69.137.65.nip.io/proyecto/rabbitmq_consumer:latest
           imagePullPolicy: Always
           env:
             - name: RABBITMQ_ADDR

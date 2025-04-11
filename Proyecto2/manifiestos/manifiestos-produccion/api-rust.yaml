@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-rust
-          image: harbor.HARBOR_PLACEHOLDER.nip.io/proyecto/api_rust:latest
+          image: harbor.34.69.137.65.nip.io/proyecto/api_rust:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
