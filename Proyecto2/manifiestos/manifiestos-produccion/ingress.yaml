@@ -3,16 +3,23 @@ kind: Ingress
 metadata:
   name: weather-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
     - host: HARBOR_PLACEHOLDER.nip.io
       http:
         paths:
-          - path: /input
-            pathType: Prefix
+          - path: /input(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: api-rust-service
                 port:
                   number: 8080
+          - path: /grafana(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000

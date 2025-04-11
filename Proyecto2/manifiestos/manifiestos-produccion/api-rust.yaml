@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: api-rust-deployment
 spec:
-  replicas: 1
+  replicas: 1  # Mínimo para HPA
   selector:
     matchLabels:
       app: api-rust
@@ -18,15 +18,20 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-      imagePullSecrets:
-        - name: harbor-cred  
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: api-rust-service
 spec:
-  type: ClusterIP  #no se expone por nodeport, lo hará el Ingress
+  type: ClusterIP
   selector:
     app: api-rust
   ports:

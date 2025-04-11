@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: valkey
+  name: redis
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: valkey
+      app: redis
   template:
     metadata:
       labels:
-        app: valkey
+        app: redis
     spec:
       containers:
-        - name: valkey
-          image: valkey/valkey:7.2
+        - name: redis
+          image: redis:7.2
           ports:
             - containerPort: 6379
           resources:
@@ -28,11 +28,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: valkey
+  name: redis
 spec:
   type: ClusterIP
   selector:
-    app: valkey
+    app: redis
   ports:
     - port: 6379
       targetPort: 6379

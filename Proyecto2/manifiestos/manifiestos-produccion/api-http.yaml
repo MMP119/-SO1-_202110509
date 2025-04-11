@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: api-http-deployment
 spec:
-  replicas: 1
+  replicas: 2  # pruebas de carga
   selector:
     matchLabels:
       app: api-http
@@ -18,15 +18,20 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
-      imagePullSecrets:
-        - name: harbor-cred
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "150m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: api-http-service
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     app: api-http
   ports:
