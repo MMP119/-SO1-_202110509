@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: kafka-consumer
-          image: harbor.34.69.137.65.nip.io/proyecto/kafka_consumer:latest
+          image: 34.69.137.65.nip.io/proyecto/kafka_consumer:latest
           imagePullPolicy: Always
           env:
             - name: KAFKA_ADDR
@@ -23,8 +23,8 @@ spec:
               value: redis:6379
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "125m"
+              cpu: "25m"
+              memory: "32Mi"
             limits:
-              memory: "200Mi"
-              cpu: "250m"
+              cpu: "75m"
+              memory: "96Mi"

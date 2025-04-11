@@ -14,17 +14,17 @@ spec:
     spec:
       containers:
         - name: api-http
-          image: harbor.34.69.137.65.nip.io/proyecto/api_go_http:latest
+          image: 34.69.137.65.nip.io/proyecto/api_go_http:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "150m"
+              cpu: "25m"
+              memory: "32Mi"
             limits:
-              memory: "256Mi"
-              cpu: "300m"
+              cpu: "75m"
+              memory: "96Mi"
 ---
 apiVersion: v1
 kind: Service

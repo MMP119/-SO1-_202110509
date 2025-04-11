@@ -14,17 +14,17 @@ spec:
     spec:
       containers:
         - name: api-rust
-          image: harbor.34.69.137.65.nip.io/proyecto/api_rust:latest
+          image: 34.69.137.65.nip.io/proyecto/api_rust:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "100m"
+              cpu: "25m"
+              memory: "32Mi"
             limits:
-              memory: "128Mi"
-              cpu: "200m"
+              cpu: "75m"
+              memory: "96Mi"
 ---
 apiVersion: v1
 kind: Service

@@ -14,17 +14,17 @@ spec:
     spec:
       containers:
         - name: rabbitmq-consumer
-          image: harbor.34.69.137.65.nip.io/proyecto/rabbitmq_consumer:latest
+          image: 34.69.137.65.nip.io/proyecto/rabbitmq_consumer:latest
           imagePullPolicy: Always
           env:
             - name: RABBITMQ_ADDR
-              value: amqp://guest:guest@rabbitmq:5672/
+              value: amqp://guest:guest@rabbitmq-svc:5672/
             - name: VALKEY_ADDR
               value: valkey:6379
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "125m"
+              cpu: "25m"
+              memory: "32Mi"
             limits:
-              memory: "200Mi"
-              cpu: "250m"
+              cpu: "75m"
+              memory: "96Mi"

@@ -20,16 +20,16 @@ spec:
             - containerPort: 15672  # Interfaz web
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
+              cpu: "25m"
+              memory: "32Mi"
             limits:
-              memory: "256Mi"
-              cpu: "200m"
+              cpu: "75m"
+              memory: "96Mi"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq
+  name: rabbitmq-svc 
 spec:
   type: ClusterIP
   selector:
