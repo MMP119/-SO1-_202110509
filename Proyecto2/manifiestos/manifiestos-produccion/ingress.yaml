@@ -6,8 +6,6 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/proxy-redirect-from: "http://$host/grafana/"
-    nginx.ingress.kubernetes.io/proxy-redirect-to: "http://$host/grafana"
 spec:
   ingressClassName: nginx
   rules:

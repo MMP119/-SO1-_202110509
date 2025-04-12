@@ -113,3 +113,9 @@ Reiniciar deployment:
 <br>
 kubectl rollout restart deployment grafana -n ingress-nginx
 <br>
+
+Borrar un pod:
+<br>
+kubectl delete pod -l app=grafana -n ingress-nginx
+<br>
+
