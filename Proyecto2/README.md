@@ -72,3 +72,44 @@ locust -H http://192.168.49.2.nip.io
 Kubectl:
 <br>
 kubectl rollout restart deployment rabbitmq-consumer
+kubectl apply -f . -n ingress-nginx
+kubectl apply -f grpc.yaml -n ingress-nginx
+
+
+
+<br>
+COMANDOS DESDE CERO:
+<br>
+helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace
+
+<br>
+Verificar instalacion:
+<br>
+kubectl get pods -n ingress-nginx
+<br>
+kubectl get svc -n ingress-nginx
+<br>
+Poner la external-ip para el ingress.yaml con el .nip.io
+
+<br>
+kubectl apply -f . -n ingress-nginx (dentro de mi carpeta de manifiestos-produccion, está todo en el namespace de ingress-nginx)
+<br>
+kubectl get pods -n ingress-nginx
+<br>
+kubectl get services -n ingress-nginx
+
+<br>
+grafana:
+<br>
+http://130.211.222.62/grafana (siempre cambiar la ip dependiendo del ingress)
+<br>
+
+Ver los logs:
+<br>
+kubectl logs -n ingress-nginx -l app=api-rust
+<br>
+
+Reiniciar deployment:
+<br>
+kubectl rollout restart deployment grafana -n ingress-nginx
+<br>
