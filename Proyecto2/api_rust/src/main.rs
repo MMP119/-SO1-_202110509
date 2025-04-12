@@ -33,12 +33,18 @@ async fn input_handler(item: web::Json<WeatherInput>) -> impl Responder {
     }
 }
 
+async fn health_check() -> impl Responder {
+    HttpResponse::Ok().body("OK")
+}
+
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     println!("API Rust escuchando en http://0.0.0.0:8080");
 
     HttpServer::new(|| {
         App::new()
+            .route("/", web::get().to(health_check))
             .route("/input", web::post().to(input_handler))
     })
     .bind("0.0.0.0:8080")?

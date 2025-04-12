@@ -13,6 +13,9 @@ RUN cargo build --release
 # Etapa 2: Crear imagen final ultra liviana
 FROM debian:bookworm-slim
 
+# Instalar curl
+RUN apt-get update && apt-get install -y curl
+
 # Copiar el binario compilado 
 COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/api_rust /usr/local/bin/api_rust
 

@@ -1,9 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: rabbitmq
+  namespace: ingress-nginx 
 spec:
-  replicas: 1
+  serviceName: "rabbitmq"
+  replicas: 1 
   selector:
     matchLabels:
       app: rabbitmq
@@ -13,31 +15,39 @@ spec:
         app: rabbitmq
     spec:
       containers:
-        - name: rabbitmq
-          image: rabbitmq:3-management
-          ports:
-            - containerPort: 5672   # AMQP
-            - containerPort: 15672  # Interfaz web
-          resources:
-            requests:
-              cpu: "25m"
-              memory: "32Mi"
-            limits:
-              cpu: "75m"
-              memory: "96Mi"
+      - name: rabbitmq
+        image: rabbitmq:3-management 
+        ports:
+        - containerPort: 5672 # Puerto AMQP
+        - containerPort: 15672 # Puerto de gestión web
+        volumeMounts:
+        - name: rabbitmq-data
+          mountPath: /var/lib/rabbitmq # Almacenamiento persistente para los datos de RabbitMQ
+  volumeClaimTemplates:
+  - metadata:
+      name: rabbitmq-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi 
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq-svc 
+  name: rabbitmq-service
+  namespace: ingress-nginx 
 spec:
-  type: ClusterIP
   selector:
     app: rabbitmq
   ports:
-    - name: amqp
-      port: 5672
-      targetPort: 5672
-    - name: web
-      port: 15672
-      targetPort: 15672
+  - name: amqp
+    protocol: TCP
+    port: 5672
+    targetPort: 5672
+  - name: management
+    protocol: TCP
+    port: 15672
+    targetPort: 15672
+  type: ClusterIP 

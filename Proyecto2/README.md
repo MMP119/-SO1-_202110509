@@ -11,6 +11,10 @@ docker build -f grpc/Dockerfile -t api_go_grpc:latest .
 docker build -f kafka_consumer/Dockerfile -t kafka_consumer:latest .
 docker build -f rabbitmq_consumer/Dockerfile -t rabbitmq_consumer:latest .
 
+docker tag api_rust:latest 34.69.137.65.nip.io/proyecto/api_rust:latest
+docker push 34.69.137.65.nip.io/proyecto/api_rust:latest
+
+
 minikube start
 minikube addons enable ingress
 minikube stop
@@ -61,3 +65,10 @@ LRANGE mensajes 0 -1 //mostrar todos los mensajes en redis
 Poner a funcionar locust:
 <br>
 locust -H http://192.168.49.2.nip.io
+
+
+
+<br>
+Kubectl:
+<br>
+kubectl rollout restart deployment rabbitmq-consumer

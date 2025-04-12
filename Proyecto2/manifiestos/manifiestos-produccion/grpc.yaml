@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grpc-deployment
+  namespace: ingress-nginx
 spec:
   replicas: 2  
   selector:
@@ -35,6 +36,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: grpc-service
+  namespace: ingress-nginx
 spec:
   type: ClusterIP
   selector:

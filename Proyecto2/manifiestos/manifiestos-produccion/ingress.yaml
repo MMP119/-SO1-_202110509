@@ -2,22 +2,27 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: weather-ingress
+  namespace: ingress-nginx
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-redirect-from: "http://$host/grafana/"
+    nginx.ingress.kubernetes.io/proxy-redirect-to: "http://$host/grafana"
 spec:
+  ingressClassName: nginx
   rules:
-    - host: 34.69.137.65.nip.io
+    - host: 130.211.222.62.nip.io
       http:
         paths:
-          - path: /input(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: /input
+            pathType: Prefix
             backend:
               service:
                 name: api-rust-service
                 port:
                   number: 8080
-          - path: /grafana(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: /grafana
+            pathType: Prefix
             backend:
               service:
                 name: grafana

@@ -14,23 +14,38 @@ import (
 var ctx = context.Background()
 
 func main() {
-	// Obtener dirección de Redis
+	// Obtener dirección de Valkey (Redis compatible)
 	valkeyAddr := os.Getenv("VALKEY_ADDR")
 	if valkeyAddr == "" {
 		valkeyAddr = "valkey:6379"
 	}
 
-	// Conexión a Redis
+	// Conexión a Valkey
 	rdb := redis.NewClient(&redis.Options{
 		Addr: valkeyAddr,
 	})
 	defer rdb.Close()
 
-	// Obtener dirección de RabbitMQ
-	rabbitAddr := os.Getenv("RABBITMQ_ADDR")
-	if rabbitAddr == "" {
-		rabbitAddr = "amqp://guest:guest@rabbitmq:5672/"
+	// Obtener variables individuales para RabbitMQ
+	rabbitHost := os.Getenv("RABBITMQ_HOST")
+	rabbitPort := os.Getenv("RABBITMQ_PORT")
+	rabbitUser := os.Getenv("RABBITMQ_USER")
+	rabbitPass := os.Getenv("RABBITMQ_PASSWORD")
+
+	if rabbitHost == "" {
+		rabbitHost = "rabbitmq-service"
 	}
+	if rabbitPort == "" {
+		rabbitPort = "5672"
+	}
+	if rabbitUser == "" {
+		rabbitUser = "guest"
+	}
+	if rabbitPass == "" {
+		rabbitPass = "guest"
+	}
+
+	rabbitAddr := fmt.Sprintf("amqp://%s:%s@%s:%s/", rabbitUser, rabbitPass, rabbitHost, rabbitPort)
 	log.Printf("Dirección de RabbitMQ: %s", rabbitAddr)
 
 	// Conexión a RabbitMQ
@@ -61,7 +76,7 @@ func main() {
 	for msg := range msgs {
 		text := string(msg.Body)
 
-		err := rdb.LPush(ctx, "mensajes", text).Err()
+		err := rdb.LPush(ctx, "mensajes", text, 0).Err()
 		if err != nil {
 			log.Printf("Error guardando en Redis: %v", err)
 		} else {
