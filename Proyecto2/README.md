@@ -67,6 +67,12 @@ Poner a funcionar locust:
 locust -H http://192.168.49.2.nip.io
 
 
+<br>
+ENCENDER HARBOR
+<br>
+sudo docker-compose up -d
+<br>
+mario1234, Harbor12345
 
 <br>
 Kubectl:
@@ -90,6 +96,12 @@ kubectl get pods -n ingress-nginx
 kubectl get svc -n ingress-nginx
 <br>
 Poner la external-ip para el ingress.yaml con el .nip.io
+
+<br>
+kubectl create -f https://strimzi.io/install/latest?namespace=ingress-nginx
+
+<br>
+PARA BORROR STRIMZI: kubectl delete -f https://strimzi.io/install/latest?namespace=ingress-nginx
 
 <br>
 kubectl apply -f . -n ingress-nginx (dentro de mi carpeta de manifiestos-produccion, está todo en el namespace de ingress-nginx)
