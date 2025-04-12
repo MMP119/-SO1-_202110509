@@ -40,6 +40,8 @@ spec:
               value: http://130.211.222.62.nip.io/grafana
             - name: GF_SERVER_SERVE_FROM_SUB_PATH
               value: "true"
+            - name: GF_PLUGINS_ALLOW_UNSIGNED_PLUGINS
+              value: "redis-datasource"
           volumeMounts:
             - name: grafana-storage
               mountPath: /var/lib/grafana

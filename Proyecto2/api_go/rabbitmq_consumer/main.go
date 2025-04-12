@@ -76,7 +76,7 @@ func main() {
 	for msg := range msgs {
 		text := string(msg.Body)
 
-		err := rdb.LPush(ctx, "mensajes", text, 0).Err()
+		err := rdb.LPush(ctx, "mensajes", text).Err()
 		if err != nil {
 			log.Printf("Error guardando en Redis: %v", err)
 		} else {
