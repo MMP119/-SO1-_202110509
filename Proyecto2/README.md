@@ -215,12 +215,40 @@ Sin embargo, HTTP es más simple, universal y fácil de consumir desde clientes 
 
 ---
 
-#### 📌 ¿Hubo una mejora al utilizar dos réplicas en los deployments de API REST y gRPC? Justifique su respuesta.
 
-✅ Sí, hubo una mejora notable en:
-- **Disponibilidad**: Si una réplica falla, la otra sigue funcionando.
-- **Balanceo de carga**: El Ingress y Kubernetes distribuyen las peticiones entre las réplicas.
-- **Escalabilidad**: Con Locust se logró mantener rendimiento estable con múltiples usuarios concurrentes.
+### 📌 ¿Hubo una mejora al utilizar dos réplicas en los deployments de API REST y gRPC? Justifique su respuesta.
+
+Sí, la implementación de dos réplicas para los servicios, trajo beneficios concretos y medibles en términos de disponibilidad, rendimiento y estabilidad general del sistema.
+
+
+1. **Alta disponibilidad y tolerancia a fallos**  
+   Durante el despliegue en GKE, observamos que ocasionalmente algunos pods entraban en estado CrashLoopBackOff o ImagePullBackOff, especialmente en situaciones de recursos limitados o durante actualizaciones de imágenes.  
+   Con una sola réplica, el servicio se vuelve inalcanzable durante estos reinicios. En cambio, al contar con dos réplicas, el sistema siempre mantiene al menos una instancia activa, eliminando tiempos de inactividad.
+
+2. **Balanceo de carga eficiente**  
+   Kubernetes, en conjunto con el Ingress Controller, reparte las solicitudes entrantes entre las réplicas disponibles. Esto permitió que las APIs respondieran más rápido y con mayor estabilidad, especialmente bajo pruebas de carga realizadas con Locust.
+
+3. **Escalabilidad horizontal efectiva**  
+   En simulaciones con Locust, configurando entre 50 y 100 usuarios concurrentes, se demostró que el sistema con una réplica comenzaba a degradarse. Al utilizar dos réplicas, se observó una reducción en los errores**, así como mayor estabilidad en los tiempos de respuesta.
+
+
+#### **Gráfica comparativa del rendimiento**
+
+La siguiente gráfica muestra los resultados de las pruebas realizadas con Locust, comparando el sistema con 1 y 2 réplicas bajo una misma carga simulada.
+![Comparacion](imgs/Comparacion.png)
+
+
+
+#### **Conclusión final**
+
+Utilizar al menos dos réplicas en servicios críticos como una API REST o un endpoint gRPC no solo es recomendable, sino fundamental en un entorno de producción. Provee estabilidad, rendimiento constante y tolerancia a fallos, sin necesidad de una infraestructura excesivamente compleja. En un escenario como el de este proyecto, donde la disponibilidad y recolección continua de datos es clave, las dos réplicas garantizan que el sistema funcione incluso ante fallos inesperados.
+
+#### **Anexo una Réplica**
+![1Replica](imgs/1Replica.png)
+
+
+#### **Aneexo dos Réplicas**
+![2Replicas](imgs/2Replica.png)
 
 ---
 
