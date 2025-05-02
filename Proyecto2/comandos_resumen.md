@@ -65,7 +65,7 @@ LRANGE mensajes 0 9 //ultimos 10
 
 Poner a funcionar locust:
 <br>
-locust -H http://192.168.49.2.nip.io
+locust -H http://34.46.5.73.nip.io
 
 
 <br>
