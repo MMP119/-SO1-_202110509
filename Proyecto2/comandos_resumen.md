@@ -59,6 +59,7 @@ Grafana:
 redis://redis:6379
 redis://valkey:6379
 LRANGE mensajes 0 -1 //mostrar todos los mensajes en redis
+LRANGE mensajes 0 9 //ultimos 10
 
 
 

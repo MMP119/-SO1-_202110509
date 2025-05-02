@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: grafana
-          image: grafana/grafana:latest # Cambiado a la versión "latest"
+          image: grafana/grafana:latest 
           ports:
             - containerPort: 3000
           env:
@@ -37,7 +37,7 @@ spec:
             - name: GF_SECURITY_ADMIN_PASSWORD
               value: admin
             - name: GF_SERVER_ROOT_URL
-              value: http://104.155.141.80.nip.io/grafana
+              value: http://34.46.5.73.nip.io/grafana
             - name: GF_SERVER_SERVE_FROM_SUB_PATH
               value: "true"
             - name: GF_PLUGINS_ALLOW_UNSIGNED_PLUGINS
